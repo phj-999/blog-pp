@@ -1,0 +1,49 @@
+/**
+ * 抽离view-header中setUP中return
+ */
+import {
+    BookOutlined,
+    ReadOutlined,
+    ScheduleOutlined,
+    SisternodeOutlined,
+    MoneyCollectOutlined
+} from '@ant-design/icons-vue'
+
+import {
+    useRouteNameToPage
+} from '../../use/router'
+
+export const showIndexViewConfig = {
+    avatar: {
+        src: require("../../assets/img/avatar.jpg"),
+    },
+    title: 'MarkThree',
+    subTitle: "展示",
+    unwantedBackWhiteList: ["ShowBlog"], //不需要渲染back的白名单
+    buttonGroup: [{
+            text: '日志',
+            icon: < BookOutlined /> ,
+            handle: useRouteNameToPage("ShowBlog")
+        },
+        {
+            text: '读书',
+            icon: < ReadOutlined /> ,
+            handle: useRouteNameToPage("ShowBook")
+        },
+        {
+            text: '项目',
+            icon: < ScheduleOutlined /> ,
+            handle: useRouteNameToPage("ShowProject")
+        },
+        {
+            text: '归档',
+            icon: < SisternodeOutlined /> ,
+            handle: useRouteNameToPage("ShowFile")
+        },
+        {
+            text: '赞助列表',
+            icon: < MoneyCollectOutlined /> ,
+            handle: useRouteNameToPage("ShowList")
+        }
+    ]
+}

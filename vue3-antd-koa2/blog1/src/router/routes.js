@@ -1,0 +1,51 @@
+/**
+ * 添加类型提示
+ * @type {import ('vue-router').RouteRecordRaw[]}
+ */
+
+export const routes = [{
+    path: '/',
+    redirect: '/show'
+  },
+  {
+    path: '/show',
+    name: 'Show',
+    component: () => import('../views/show/Index.vue'),
+    children: [{
+        path: '',
+        redirect: '/show/blogs'
+      },
+      {
+        path: 'blogs',
+        name: 'ShowBlog',
+        component: () => import('../views/show/Blog.vue')
+      },
+      {
+        path: "books",
+        name: "ShowBook",
+        component: () => import("../views/show/Book.vue")
+      },
+      {
+        path: "projects",
+        name: "ShowProject",
+        component: () => import("../views/show/Project.vue")
+      },
+      {
+        path: "files",
+        name: "ShowFile",
+        component: () => import("../views/show/File.vue")
+      },
+      {
+        path: "list",
+        name: "ShowList",
+        component: () => import("../views/show/List.vue")
+      },
+      {
+        path: 'about',
+        name: 'ShowAbout',
+        component: () => import('../views/show/About.vue')
+      }
+    ]
+  },
+
+]
