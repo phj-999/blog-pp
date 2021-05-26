@@ -5,7 +5,13 @@
         <u-button-group />
       </template>
     </b-view-header>
-    <router-view />
+<!-- 给标签下内容添加切换时候的渐变效果 -->
+    <router-view v-slot='{ Component }'>
+      <transition name='fade' mode= 'out-in'>
+        <component :is="Component"/>
+      </transition>
+    </router-view>
+
   </main>
 </template>
 
@@ -31,5 +37,6 @@ export default {
 .show {
   width: 50vw;
   margin: 50px auto;
+  padding: 50px 0;
 }
 </style>

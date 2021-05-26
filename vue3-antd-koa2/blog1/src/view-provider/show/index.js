@@ -10,7 +10,7 @@ import {
 } from '@ant-design/icons-vue'
 
 import {
-    useRouteNameToPage
+    useRouteNameToPage, useRoutePathToPage
 } from '../../use/router'
 
 export const showIndexViewConfig = {
@@ -23,12 +23,12 @@ export const showIndexViewConfig = {
     buttonGroup: [{
             text: '日志',
             icon: < BookOutlined /> ,
-            handle: useRouteNameToPage("ShowBlog")
+            handle: useRoutePathToPage("/show/blogs/1")
         },
         {
             text: '读书',
             icon: < ReadOutlined /> ,
-            handle: useRouteNameToPage("ShowBook")
+            handle: useRoutePathToPage("/show/books/1")
         },
         {
             text: '项目',

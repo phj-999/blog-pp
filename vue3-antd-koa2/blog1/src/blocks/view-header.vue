@@ -1,9 +1,11 @@
 <template>
   <a-page-header :title="title" :sub-title="subTitle" :avatar="avatar">
     <template #extra>
+      <transition name="fade" mode="out-in">
       <a-button type="primary" v-if="backShowStatus" @click="backHomePage">
         <LeftSquareOutlined />返回首页
       </a-button>
+      </transition>
     </template>
     <template #footer>
       <slot name="footer"></slot>
