@@ -11,4 +11,14 @@ export const useRouteNameToPage = routeName =>
 
 //利用路由路径跳转
 export const useRoutePathToPage = routePath =>
-    router.push.bind(router,{path:routePath})
+    router.push.bind(router, {
+        path: routePath
+    })
+
+export const useRouterParamChange = type => value => {
+    router.push({
+        params: {
+            [type]: value
+        }
+    })
+}

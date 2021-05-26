@@ -20,6 +20,7 @@ export const showIndexViewConfig = {
     title: 'MarkThree',
     subTitle: "展示",
     unwantedBackWhiteList: ["ShowBlog"], //不需要渲染back的白名单
+    homePath:'/show/blogs/1',
     buttonGroup: [{
             text: '日志',
             icon: < BookOutlined /> ,

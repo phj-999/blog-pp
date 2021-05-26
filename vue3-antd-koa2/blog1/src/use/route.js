@@ -2,7 +2,7 @@ import {
     useRoute
 } from 'vue-router';
 import {
-    computed
+    computed,ref,watchEffect
 } from 'vue';
 
 /**
@@ -18,4 +18,14 @@ export const useNotOnRouteWhiteListStatus = (
         () => !whiteList.includes(route.name)
     )
     return status
+}
+
+export const useLinkdRouteParam = (type,isNum=true) =>{
+    const route =useRoute()
+    const currentParam = ref('')
+    watchEffect(()=>{
+        const param = route.params[type]
+        currentParam.value =isNum? Number(param) :param
+    })
+    return currentParam
 }

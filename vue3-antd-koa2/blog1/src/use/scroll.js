@@ -15,3 +15,11 @@ export const useWindowScrollStatus = () => {
     usewindowEvent('scroll', judgeScrollStatusHandler)
     return status
 }
+
+export const usewindowScrollTo= (position, behavior='smooth') => {
+      //滚动效果平滑滚动上去
+      window.scrollTo({
+        ...position,
+        behavior
+      })
+}

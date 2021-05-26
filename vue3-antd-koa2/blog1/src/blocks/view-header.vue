@@ -16,7 +16,7 @@
 <script>
 import { PageHeader } from "ant-design-vue";
 import { LeftSquareOutlined } from "@ant-design/icons-vue";
-import { useRouteNameToPage } from "../use/router";
+import { useRoutePathToPage } from "../use/router";
 import { useNotOnRouteWhiteListStatus } from "../use/route";
 
 export default {
@@ -34,13 +34,13 @@ export default {
    * 导入props中config中对象
    */
   setup(props) {
-    const { avatar = {}, title, subTitle, unwantedBackWhiteList } =
+    const { avatar = {}, title, subTitle, unwantedBackWhiteList, homePath} =
       props.config || {};
 
     avatar.size = avatar.size || "large"; //给默认值
     avatar.shape = avatar.shape || "square"; //默认值
 
-    const backHomePage = useRouteNameToPage("ShowBlog"); //返回首页
+    const backHomePage = useRoutePathToPage(homePath); //返回首页
 
     const backShowStatus = useNotOnRouteWhiteListStatus(unwantedBackWhiteList); //不需要渲染返回首页的白名单
     return {

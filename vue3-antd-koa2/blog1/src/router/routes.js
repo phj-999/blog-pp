@@ -3,7 +3,13 @@
  * @type {import ('vue-router').RouteRecordRaw[]}
  */
 
-export const routes = [{
+export const routes = [
+  {
+    path:'/:pathMatch(.*)*',//404页面
+    name:'NotFound',
+    component:()=>import('../views/common/NotFound.vue')
+  },
+  {
     path: '/',
     redirect: '/show'
   },
@@ -11,7 +17,8 @@ export const routes = [{
     path: '/show',
     name: 'Show',
     component: () => import('../views/show/Index.vue'),
-    children: [{
+    children: [
+      {
         path: '',
         redirect: '/show/blogs/1'
       },
