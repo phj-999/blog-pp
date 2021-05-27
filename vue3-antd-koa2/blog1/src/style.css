@@ -35,3 +35,18 @@
 .fade-leave-to {
 	opacity: 0;
 }
+
+/*
+*全局过度阴影
+*/
+.shadow,.shadow:hover {
+	transition: all 0.5s ease-in-out;
+}
+
+.shadow:hover {
+	box-shadow: 0 0 10px #607d8b;
+}
+
+.mx-1{
+	margin: 0px 10px;
+}

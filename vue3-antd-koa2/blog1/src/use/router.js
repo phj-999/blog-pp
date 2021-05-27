@@ -15,10 +15,9 @@ export const useRoutePathToPage = routePath =>
         path: routePath
     })
 
-export const useRouterParamChange = type => value => {
+export const useRouterParamChange = type => value => 
     router.push({
         params: {
             [type]: value
         }
     })
-}
