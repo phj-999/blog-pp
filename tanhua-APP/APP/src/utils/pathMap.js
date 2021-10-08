@@ -1,7 +1,7 @@
 /**
  * 接口地址 
  * */
-export const BASE_URL = 'http://157.122.54.189:6016/swagger.html'
+export const BASE_URL = 'http://157.122.54.189:6016'
 
  /**
   *  登录 获取验证码  

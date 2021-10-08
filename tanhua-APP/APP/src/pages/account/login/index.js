@@ -1,23 +1,37 @@
 import React, {Component} from 'react';
-import {Text, View, Image, StatusBar} from 'react-native';
-import Icon from 'react-native-vector-icons/FontAwesome';
+import {Text, View, Image, StatusBar, StyleSheet} from 'react-native';
 import {Input} from 'react-native-elements';
+import {
+  CodeField,
+  Cursor,
+} from 'react-native-confirmation-code-field';
 
 import {pxToDp} from '../../../utils/stylesKits';
 import validator from '../../../utils/validator';
-import request from "../../../utils/request";
-import { ACCOUNT_LOGIN } from "../../../utils/pathMap";
+import request from "@/utils/request";
+import { ACCOUNT_LOGIN, ACCOUNT_VALIDATEVCODE } from "../../../utils/pathMap";
 
-export default class index extends Component {
+import THButton from '../../../components/THButton/index'
+
+class index extends Component {
    
   state = {
     phoneNumber: '999999999',
     //手机号码是否合法
     phoneValid: true,
+    //是否显示登陆页面
+    showLogin:true,
+    //验证码输入框的值
+    vcodeTxt: '',
+    //倒计时按钮文本
+    btnText:'重新获取',
+   // 是否在倒计时中
+   isCountDowning:false
   };
   //登录框事件
-  phoneNumberChangeText = phoneNumber => {
+  phoneNumberChangeText = (phoneNumber) => {
     this.setState({phoneNumber});
+    console.log(phoneNumber);
   };
   //手机号码点击完成触发
   phoneNumberSubmitEditing = async() =>{
@@ -35,24 +49,71 @@ export default class index extends Component {
       return;
     }
 
-     const res = await request.post(ACCOUNT_LOGIN,{phone:phoneNumber})
-
+      await request.post(ACCOUNT_LOGIN, { phone: phoneNumber }).then(res=>{
+      
+      if (res.data.code=='10000') {
+       
+     this.setState({showLogin:false})
+     //开始定时器
+     this.countDown()
+    }
+   }).then(error=>{if(error){console.error();}})
+ 
   };
-  render() {
-    const {phoneNumber} = this.state;
-    return (
-      <View>
-        {/*状态栏 */}
-        <StatusBar backgroundColor="transparent" translucent={true}></StatusBar>
-        {/*背景图片*/}
-        <Image
-          style={{width: '100%', height: pxToDp(240)}}
-          source={require('../../../assets/res/profileBackground.jpg')}
-        />
+//定时器
+  countDown=()=>{
+    
+    if (this.state.isCountDowning) {
+      return
+    }
+    this.setState({isCountDowning:true})
 
-        {/*登录功能*/}
-        <View style={{padding: pxToDp(20)}}>
-          <View>
+    let seconds =5
+    this.setState({btnText:`重新获取(${seconds}s)`})
+    let timeId = setInterval(() => {
+      seconds--
+      this.setState({btnText:`重新获取(${seconds}s)`})
+      if (seconds===0) {
+        clearInterval(timeId)
+        this.setState({btnText:'重新获取',isCountDowning:false})
+      }
+    }, 1000);
+   }
+//验证码输入完成时间
+onVcodeSubmitEditing=async()=>{
+  /**校验验证码 新用户跳转完善页面 否则跳转交友首页 */
+  const {vcodeTxt,phoneNumber} = this.state
+ if (vcodeTxt.length !==6) {
+  //弹出弹出框提示不在正确
+  return
+ }
+ await request.post(ACCOUNT_VALIDATEVCODE,{
+  phone:phoneNumber,
+  vcode:vcodeTxt
+}).then(res=>{
+  const resuser = res.data
+  console.log(resuser.data.id, resuser.data.isNew);
+  if (resuser.code!='10000') {
+    return
+  }
+  if (resuser.data.isNew) {
+    //新用户
+    console.log('新用户');
+    this.props.navigation.navigate('UserInfo')
+  }else{
+    //老用户
+    console.log('老用户');
+  }
+}).then(error=>console.error(error))
+
+
+}
+
+//渲染登陆页面
+renderLogin=()=>{
+  const {phoneNumber,phoneValid} = this.state;
+  return(
+  <View>
             <View>
               <Text
                 style={{
@@ -70,7 +131,7 @@ export default class index extends Component {
                 maxLength={11}
                 keyboardType="phone-pad"
                 value={phoneNumber}
-                inputStyle={{color: '#ccc'}}
+                inputStyle={{color: '#333'}}
                 leftIcon={{
                   type: 'font-awesome',
                   name: 'phone',
@@ -82,9 +143,99 @@ export default class index extends Component {
                 onSubmitEditing={this.phoneNumberSubmitEditing}
               />
             </View>
+            {/*渐变按钮 */}
+            
+            
+                      <View>
+                        <THButton 
+                        onPress={this.phoneNumberSubmitEditing} 
+                       
+                        style={{ width:'85%',height:pxToDp(40),alignSelf:'center',borderRadius:pxToDp(20) }}>获取验证码</THButton>
+                      </View>
+            
           </View>
+)
+}
+//点击重新获取按钮
+repGetVcode=()=>{
+  this.countDown()
+}
+//渲染验证码页面
+renderVcode=()=>{
+  const CELL_COUNT = 6; //表示有6格子
+  const {phoneNumber,vcodeTxt,btnText,isCountDowning} = this.state;
+  return(
+    <View>
+      <View><Text style={{fontSize:pxToDp(25),color:'#888',fontWeight:'bold'}}>输入6位验证码</Text></View>
+      <View style={{marginTop:pxToDp(15)}}><Text style={{color:'#888'}}>已发送至：+86 {phoneNumber}</Text></View>
+      <View>   
+      <CodeField
+        onSubmitEditing={this.onVcodeSubmitEditing}
+        value={vcodeTxt}
+        onChangeText={this.onVcodeChangeText}
+        cellCount={CELL_COUNT}
+        rootStyle={styles.codeFieldRoot}
+        keyboardType="number-pad"
+        renderCell={({index, symbol, isFocused}) => (
+          <Text
+            key={index}
+            style={[styles.cell, isFocused && styles.focusCell]}>
+            {symbol || (isFocused ? <Cursor /> : null)}
+          </Text>
+        )}
+      /></View>
+      <View style={{marginTop:pxToDp(15)}}><THButton disabled={isCountDowning} onPress={this.repGetVcode} style={{width:'85%',height:pxToDp(40),alignSelf:'center',borderRadius:pxToDp(20)}}><Text>{btnText}</Text></THButton></View>
+    </View>
+  )
+}
+//验证码输入框值改变事件
+onVcodeChangeText = vcodeTxt => {
+  this.setState({vcodeTxt});
+};
+
+  render() {
+    const {phoneNumber,phoneValid,showLogin} = this.state;
+    return (
+      <View>
+        {/*状态栏 */}
+        <StatusBar backgroundColor="transparent" translucent={true}></StatusBar>
+        {/*背景图片*/}
+        <Image
+          style={{width: '100%', height: pxToDp(240)}}
+          source={require('../../../assets/res/profileBackground.jpg')}
+        />
+
+        {/*登录功能*/}
+        <View style={{padding: pxToDp(20)}}>
+          {showLogin?this.renderLogin():this.renderVcode()}
+          
+          
         </View>
       </View>
     );
   }
 }
+
+
+
+const styles = StyleSheet.create({
+  root: {flex: 1, padding: 20},
+  title: {textAlign: 'center', fontSize: 30},
+  codeFieldRoot: {marginTop: 20},
+  cell: {
+    width: 40,
+    height: 40,
+    lineHeight: 38,
+    fontSize: 24,
+    borderBottomWidth: 2,
+    borderColor: '#00000030',
+    textAlign: 'center',
+    color:'#7d53ea'
+  },
+  focusCell: {
+    borderColor: '#7d53ea',
+  },
+});
+
+
+export default index

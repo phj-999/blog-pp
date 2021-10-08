@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    /**
+     * vs路径别名识别
+     * */
+    "baseUrl": ".",
+    "paths": {
+      "@/assets/*": ["./src/assets/*"],
+      "@/utils/*": ["./src/utils/*"],
+      "@/components/*": ["./src/components/*"],
+      "@/pages/*": ["./src/pages/*"]
+    }
+  }
+}
