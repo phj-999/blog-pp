@@ -7,8 +7,8 @@ import axios from "axios";
 class Geo {
   async initGeo() {
       //若是安卓系统  请求权限
-    if (Platform.OS === "android") {
-      await PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.ACCESS_COARSE_LOCATION);
+    if (Platform.OS == "android") {
+      await PermissionsAndroid.requestMultiple([PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,PermissionsAndroid.PERMISSIONS.ACCESS_COARSE_LOCATION]);
     }
     await init({
         //android的为高德地图中申请的安卓端的key

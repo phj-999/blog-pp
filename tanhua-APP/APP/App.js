@@ -7,6 +7,7 @@ import Geo from '@/utils/Geo'
 class App extends Component {
   async componentDidMount(){
      const res = await Geo.getCityByLocation()
+     console.log(res);
   }
   render(){
     return (
