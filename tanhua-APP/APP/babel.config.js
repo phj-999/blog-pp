@@ -13,6 +13,7 @@ module.exports = {
         '@/components':'./src/components',
       }
     }],
-    ["import", { libraryName: "@ant-design/react-native" }] //antd mobile-rn 按需加载
+    ["import", { libraryName: "@ant-design/react-native" }], //antd mobile-rn 按需加载
+    ['@babel/plugin-proposal-decorators', { 'legacy': true }]  //mobx
   ]
 };

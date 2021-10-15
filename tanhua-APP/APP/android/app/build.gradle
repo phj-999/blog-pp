@@ -1,7 +1,7 @@
 apply plugin: "com.android.application"
 
 import com.android.build.OutputFile
-apply from: "../../node_modules/react-native-vector-icons/fonts.gradle" //react-native-vector-icons包配置
+//apply from: "../../node_modules/react-native-vector-icons/fonts.gradle" //react-native-vector-icons包配置
 
 /**
  * The react.gradle file registers a task for each build variant (e.g. bundleDebugJsAndAssets
@@ -193,7 +193,7 @@ dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
     //noinspection GradleDynamicVersion
     implementation "com.facebook.react:react-native:+"  // From node_modules
-    implementation project(':react-native-amap-geolocation')
+   // implementation project(':react-native-amap-geolocation')
 
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.0.0"
 

@@ -1,24 +1,28 @@
-import React, { Component } from 'react'
-import {View, Text} from 'react-native'
-import Nav  from "./src/nav";
+import React, {Component} from 'react';
+import {View, Text} from 'react-native';
+import {Provider} from 'mobx-react';
 
-import Geo from '@/utils/Geo'
+import Nav from './src/nav';
+import Geo from '@/utils/Geo';
+import RootStore from './src/mobx';
 
 class App extends Component {
-  async componentDidMount(){
-     const res = await Geo.getCityByLocation()
-     console.log(res);
+  state = {
+    isInitGeo: false,
+  };
+  async componentDidMount() {
+    await Geo.initGeo();
+    this.setState({isInitGeo: true});
   }
-  render(){
+  render() {
     return (
-      <View style={{flex:1}}>
-        <Nav>  
-        
-        </Nav>
-
-       </View> 
-    )
+      <View style={{flex: 1}}>
+        <Provider RootStore={RootStore}>
+          {this.state.isInitGeo ? <Nav></Nav> : <></>}
+        </Provider>
+      </View>
+    );
   }
 }
 
-export default App
+export default App;

@@ -9,6 +9,11 @@
       "@/utils/*": ["./src/utils/*"],
       "@/components/*": ["./src/components/*"],
       "@/pages/*": ["./src/pages/*"]
-    }
+    },
+    "experimentalDecorators": true, // 
+    "exclude": [
+    "node_modules",
+    "dist"
+  ],
   }
 }

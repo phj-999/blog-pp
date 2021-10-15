@@ -5,6 +5,7 @@ import {
   CodeField,
   Cursor,
 } from 'react-native-confirmation-code-field';
+import { inject,observer } from "mobx-react";
 
 import {pxToDp} from '../../../utils/stylesKits';
 import validator from '../../../utils/validator';
@@ -13,6 +14,9 @@ import { ACCOUNT_LOGIN, ACCOUNT_VALIDATEVCODE } from "../../../utils/pathMap";
 
 import THButton from '../../../components/THButton/index'
 
+
+@inject('RooStore')
+@observer
 class index extends Component {
    
   state = {
@@ -96,6 +100,10 @@ onVcodeSubmitEditing=async()=>{
   if (resuser.code!='10000') {
     return
   }
+
+//存储用户到mobx
+this.props.RootStore.setUserInfo(phoneNumber,resuser.data.token,resuser.data.id)
+
   if (resuser.data.isNew) {
     //新用户
     console.log('新用户');

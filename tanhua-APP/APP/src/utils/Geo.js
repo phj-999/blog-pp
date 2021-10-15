@@ -8,7 +8,7 @@ class Geo {
   async initGeo() {
       //若是安卓系统  请求权限
     if (Platform.OS == "android") {
-      await PermissionsAndroid.requestMultiple([PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,PermissionsAndroid.PERMISSIONS.ACCESS_COARSE_LOCATION]);
+      await PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.ACCESS_COARSE_LOCATION);
     }
     await init({
         //android的为高德地图中申请的安卓端的key
@@ -23,6 +23,7 @@ class Geo {
       console.log("开始定位");
       Geolocation.getCurrentPosition(({ coords }) => {
         resolve(coords);
+        console.log('getCurrentPosition:',coords);
       }, reject);
     })
   }
@@ -33,10 +34,13 @@ class Geo {
       //ios: "",
       android: "6a4e8b05d9cf996d1aa0ccbb1f643e40"
     });
+   // const { longitude, latitude } = await this.getCurrentPosition();
     const { longitude, latitude } = await this.getCurrentPosition();
+
+    console.log('jingweidu', longitude,latitude);
     const res = await axios.get("https://restapi.amap.com/v3/geocode/regeo", {
         //参数key为高德地图中第一个应用webapi的key
-      params: { location: `${longitude},${latitude}`, key: "c40ebe9b1235d086acfcbcbedb0c1199", }
+      params: { location: `${longitude},${latitude}`, key: "ecef1d0a66e062fc915f08b7304774ad", }
     });
     return Promise.resolve(res.data);
   }
