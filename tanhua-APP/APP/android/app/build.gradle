@@ -137,6 +137,11 @@ android {
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
         versionName "1.0"
+        //极光 jmessage配置
+        manifestPlaceholders = [
+        JPUSH_APPKEY: "72fb2952293a85f86b286547",	//应用的APPKey
+        APP_CHANNEL: "developer-default"		//应用渠道号
+        ]
     }
     splits {
         abi {
@@ -196,7 +201,10 @@ dependencies {
    // implementation project(':react-native-amap-geolocation')
 
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.0.0"
-
+    //极光--s
+   // compile project(':jmessage-react-plugin') // 新增的
+  //  compile project(':jcore-react-native')  // 新增的
+    //极光--e
     debugImplementation("com.facebook.flipper:flipper:${FLIPPER_VERSION}") {
         exclude group:'com.facebook.fbjni'
     }
