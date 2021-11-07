@@ -1,13 +1,15 @@
 import React from 'react';
-import {ProjectListScreen} from './screen/project-list/index';
-import {LoginScreen} from './screen/login/index';
+import { useAuth } from './context/auth-context';
+import { AuthenticatedApp } from './authenticated-app';
+import { UnauthenticatedApp } from './unauthenticate-app';
 
 
 function App() {
+
+  const {user} =useAuth()
   return (
     <div>
-      <LoginScreen />
-      <ProjectListScreen />
+      {user?<AuthenticatedApp />:<UnauthenticatedApp />}
     </div>
   );
 }
