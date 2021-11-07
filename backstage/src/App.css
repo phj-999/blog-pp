@@ -1,0 +1,12 @@
+html {
+    /*rem 相对于根元素html的font-size 
+    默认16px  此时16*62.5%=10px
+    也就是1rem===10px
+    */
+    font-size: 62.5%; 
+}
+
+/*视口高度最小高度100*/
+html body #root .App {
+    min-height: 100vh;
+}

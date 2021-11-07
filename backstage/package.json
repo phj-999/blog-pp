@@ -4,6 +4,9 @@
   "private": true,
   "dependencies": {
     "@craco/craco": "6.0.0",
+    "@emotion/core": "11.0.0",
+    "@emotion/react": "11.1.4",
+    "@emotion/styled": "11.0.0",
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
@@ -13,9 +16,11 @@
     "@types/react-dom": "^17.0.0",
     "antd": "4.9.4",
     "craco-less": "1.17.1",
+    "jira-dev-tool": "^1.6.59",
     "qs": "^6.10.1",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
+    "react-query": "3.5.10",
     "react-scripts": "4.0.3",
     "typescript": "^4.1.2",
     "web-vitals": "^1.0.1"

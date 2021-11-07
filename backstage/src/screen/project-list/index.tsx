@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import * as qs from 'qs';
+import styled from '@emotion/styled';
 
 import { SearchPanel } from "./search-panel";
 import { List } from "./list";
@@ -18,6 +18,7 @@ export const ProjectListScreen = () => {
 
     useEffect(() => {
         client('project', { data: cleanObject(debouncedParam) }).then(setList)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [debouncedParam])
 
     useMount(() => {
@@ -30,9 +31,14 @@ export const ProjectListScreen = () => {
     })
 
     return (
-        <div>
+        <Container>
+            <h1>项目列表</h1>
             <SearchPanel users={users} param={param} setParam={setParam} />
             <List list={list} users={users} />
-        </div>
+        </Container>
     )
 }
+
+const Container = styled.div `
+   padding:3.2rem
+`
