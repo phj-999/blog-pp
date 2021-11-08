@@ -49,7 +49,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         return <FullPageErrorFallback error={error} />
     }
 
-    return <AuthContext.Provider value={{ user, login, register, logout }} />
+    return <AuthContext.Provider children={children} value={{ user, login, register, logout }} />
 }
 
 export const useAuth = () => {

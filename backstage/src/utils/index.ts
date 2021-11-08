@@ -76,3 +76,8 @@ export const useDocumentTitle = (title:string,keepOnunmount:boolean=true)=>{
      // 如果不指定依赖，读到的就是旧title
   }, [keepOnunmount, oldTitle])
 }
+
+/**
+ * 重置路由状态 刷新整个页面
+ *  */
+export const resetRoute = () => window.location.href=window.location.origin
