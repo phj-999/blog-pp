@@ -6,7 +6,7 @@ import React, { useState } from "react"
 import { LoginScreen } from "./login"
 import { RegisterScreen } from "./register"
 import { Divider } from "rc-menu"
-import {Container,Header,Background,ShadowCard,Title} from "./style.js";
+import { Container, Header, Background, ShadowCard, Title } from "./style.js";
 import { Button, Typography } from "antd";
 import { useDocumentTitle } from "../utils";
 
@@ -18,18 +18,15 @@ export const UnauthenticatedApp = () => {
 
     return (
         <Container>
-            <Header/> 
-            <Background/>
-            <Button onClick={()=>{
-                throw new Error("点击抛出异常");
-            }}>抛出异常</Button>
+            <Header />
+            <Background />
             <ShadowCard>
-            <Title>{isRegister ? "请注册" : "请登录"}</Title>
-            {
-                error ? <Typography.Text type={'danger'}>{error.message}</Typography.Text>: null
-            }
+                <Title>{isRegister ? "请注册" : "请登录"}</Title>
                 {
-                    isRegister ? <RegisterScreen onError={()=>setError(error)}/> : <LoginScreen  onError={setError}/>
+                    error ? <Typography.Text type={'danger'}>{error.message}</Typography.Text> : null
+                }
+                {
+                    isRegister ? <RegisterScreen onError={() => setError(error)} /> : <LoginScreen onError={setError} />
                 }
                 <Divider />
                 <Button type={'link'} onClick={() => setIsRegister(!isRegister)}>
