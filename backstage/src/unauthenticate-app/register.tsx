@@ -3,12 +3,24 @@ import { Form, Input} from 'antd';
 
 import { useAuth } from "../context/auth-context"
 import {LongButton} from './style';
+import { useAsync } from '../utils/use-async';
 
-export const RegisterScreen = () => {
+export const RegisterScreen = ({onError}:{onError:(error:Error)=>void}) => {
     const { register, user } = useAuth()
+    const {run, isLoading} = useAsync(undefined,{throwOnError:true})
 
-    const handleSubmit = (values: { username: string, password: string }) => {
-        register(values)
+    const handleSubmit = async({cpassword,...values}: { username: string, password: string ,cpassword:string}) => {
+        if (cpassword !== values.password) {
+            onError(new Error('请确认密码是否正确'))
+            return
+        }
+        try {
+          await run(register(values))
+        } catch (error ) {
+            // eslint-disable-next-line @typescript-eslint/no-unused-expressions
+            (error: Error)=> onError(error)
+        }
+        
     }
     return (
         <Form onFinish={handleSubmit}>
@@ -25,6 +37,7 @@ export const RegisterScreen = () => {
                 <input placeholder={'密码'} type="password" id={"password"} />
             </Form.Item>
             <LongButton
+                loading={isLoading}
                 htmlType={'submit'}
                 type={"primary"}>
                 注册

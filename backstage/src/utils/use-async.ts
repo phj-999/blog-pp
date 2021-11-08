@@ -9,7 +9,9 @@ interface State<D> {
     data: D | null,
     stat: 'idle' | 'loading' | 'error' | 'success'
 }
-
+const defaultConfig = {  //把theowonerror变成可选
+    throwOnError:false
+}
 const defaultInitialState: State<null> = {
     stat: 'idle',
     data: null,
@@ -17,7 +19,10 @@ const defaultInitialState: State<null> = {
 }
 
 export const useAsync = <D>(
-    initialState?: State<D>) => {
+    initialState?: State<D>,
+    initialConfig?:typeof defaultConfig
+    ) => {
+        const config = {...defaultConfig,initialConfig}
     const [state, setState] = useState<State<D>>({
         ...defaultInitialState,
         ...initialState
@@ -46,7 +51,9 @@ export const useAsync = <D>(
             setData(data)
             return data
         }).catch(error => {
+            //catch会笑话一场 若不主动抛出 外面接收不到一场 return Promise.reject(error)
             setError(error)
+            if (config.throwOnError) return Promise.reject(error)
             return error
         })
     }
