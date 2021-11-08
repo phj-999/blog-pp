@@ -1,4 +1,4 @@
-import { useEffect,useState } from "react"
+import { useEffect,useRef,useState } from "react"
 
 
 export const isVoid = (value: unknown) =>
@@ -54,4 +54,25 @@ export const useDebounce =(value:any, delay?:number)=>{
     }, [value,delay])
 
     return debouncedValue
+}
+/**
+ *  改变页面title 
+ *  页面加载时: 旧title加载后：新title
+ * */
+export const useDocumentTitle = (title:string,keepOnunmount:boolean=true)=>{
+  const oldTitle = useRef(document.title).current
+  console.log('渲染时',oldTitle);
+  
+  useEffect(() => {
+   document.title=title
+    }, [title])
+
+  useEffect(() => {
+    return () => {//页面卸的时候调用
+      if (!keepOnunmount) {
+        document.title = oldTitle
+      }
+    }
+     // 如果不指定依赖，读到的就是旧title
+  }, [keepOnunmount, oldTitle])
 }

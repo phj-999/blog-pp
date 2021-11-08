@@ -4,7 +4,7 @@ import {Typography} from 'antd';
 
 import { SearchPanel } from "./search-panel";
 import { List } from "./list";
-import { cleanObject, useDebounce, useMount } from '../../utils/index';
+import { cleanObject, useDebounce, useDocumentTitle, useMount } from '../../utils/index';
 import { useHttp } from '../../utils/http';
 //import { useAsync } from '../../utils/use-async';
 import { Project } from "./list";
@@ -23,6 +23,7 @@ export const ProjectListScreen = () => {
     //const {run,isLoading,error,data:list}=useAsync<Project[]>()
     const {isLoading,error,data:list}=useProjects(debouncedParam)
     const {data:users} = useUsers()
+    useDocumentTitle('项目列表',false)
 
     return (
         <Container>
