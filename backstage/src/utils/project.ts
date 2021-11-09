@@ -13,7 +13,7 @@ export const useProjects =(param?:Partial<Project>)=>{
     const {run,...result}=useAsync<Project[]>()
 
     useEffect(() => {
-       run( client('project', { data: cleanObject(param||{}) }))
+       run( client('projects', { data: cleanObject(param||{}) }))
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [param])
     return result
