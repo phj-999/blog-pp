@@ -10,14 +10,16 @@ import { useHttp } from '../../utils/http';
 import { Project } from "./list";
 import { useProjects } from '../../utils/project';
 import { useUsers } from '../../utils/user';
+import { useUrlQueryParam } from '../../utils/url';
 
 const apiUrl = process.env.REACT_APP_API_URL
 
 export const ProjectListScreen = () => {
 
     //const [users, setUsers] = useState([])
-    const [param, setParam] = useState({ name: '', personId: "" })
+    //const [, setParam] = useState({ name: '', personId: "" })
     //const [list, setList] = useState([])
+    const [param,setParam] = useUrlQueryParam(['name','personId']) //路径中参数为?name=''&personId=''
     const debouncedParam = useDebounce(param, 200)//用到防抖hook
     //const client = useHttp()
     //const {run,isLoading,error,data:list}=useAsync<Project[]>()
@@ -34,6 +36,8 @@ export const ProjectListScreen = () => {
         </Container>
     )
 }
+
+ProjectListScreen.whyDidYouRender = true  //使用whyDidYouRender库检查此页面无限渲染的原因
 
 const Container = styled.div `
    padding:3.2rem
