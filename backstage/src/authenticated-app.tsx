@@ -24,6 +24,7 @@ export const AuthenticatedApp = () => {
                         <Navigate to='/projects'/>
                     </Routes>
                 </Router>
+                <CreateProject/>
             </Main>
         </Container>
     )

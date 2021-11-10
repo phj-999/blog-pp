@@ -19,14 +19,15 @@ export interface Project {
 
 interface ListProps extends TableProps<Project>{
    // list: Project[]
-    users: User[]
+    users: User[],
+    refresh?: ()=>void
 }
 
 //type PropsType = Omit<ListProps,'users'>
 
 export const List = ({ users, ...props }: ListProps) => {
     const {mutate} = useEditProject()
-    const pinProject = (id:number) => (pin:boolean) => mutate({id,pin})
+    const pinProject = (id:number) => (pin:boolean) => mutate({id,pin}).then(props.refresh)
          
     return (
         <Table

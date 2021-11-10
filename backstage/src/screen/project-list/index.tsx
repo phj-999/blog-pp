@@ -34,7 +34,7 @@ export const ProjectListScreen = () => {
     //const debouncedParam = useDebounce(projectsParam, 200)//用到防抖hook
     //const client = useHttp()
     //const {run,isLoading,error,data:list}=useAsync<Project[]>()
-    const {isLoading,error,data:list}=useProjects(useDebounce(param,200))
+    const {isLoading,error,data:list,retry}=useProjects(useDebounce(param,200))
     const {data:users} = useUsers()
     useDocumentTitle('项目列表',false)
 
@@ -45,12 +45,12 @@ export const ProjectListScreen = () => {
 
             <SearchPanel users={users || []} param={param} setParam={setParam} />
             {error?<Typography.Text type={"danger"}>{error.message}</Typography.Text>:null}
-            <List loading={isLoading} dataSource={list || []} users={users || []} />
+            <List refresh={retry} loading={isLoading} dataSource={list || []} users={users || []} />
         </Container>
     )
 }
 
-ProjectListScreen.whyDidYouRender = true  //使用whyDidYouRender库检查此页面无限渲染的原因
+ProjectListScreen.whyDidYouRender = false  //使用whyDidYouRender库检查此页面无限渲染的原因
 
 const Container = styled.div `
    padding:3.2rem
