@@ -1,4 +1,5 @@
 import { useState } from "react"
+import { useMountedRef } from "."
 
 /**
  * useAsync 
@@ -27,6 +28,8 @@ export const useAsync = <D>(
         ...defaultInitialState,
         ...initialState
     })
+    
+    const mountedRef = useMountedRef()
 
     const [retry, setRetry] = useState(()=>()=>{})
 
@@ -58,6 +61,7 @@ export const useAsync = <D>(
             ...state, stat: 'loading'
         })
         return promise.then(data => {
+            if (mountedRef.current)
             setData(data)
             return data
         }).catch(error => {
