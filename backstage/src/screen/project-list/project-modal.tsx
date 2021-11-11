@@ -5,14 +5,16 @@
 import React from 'react'
 import { Button, Drawer } from 'antd'
 import { ButtonNoPadding } from '../../components/lib'
+import { useProjectModal } from './util'
 
-export const ProjectModal = (props:{projectModalOpen:boolean,onClose:()=>void}) => {
+export const ProjectModal = () => {
+    const {projectModalOpen,close,open} = useProjectModal()
     return (
-        <Drawer onClose={props.onClose} visible={props.projectModalOpen} width={'100%'}>
+        <Drawer onClose={close} visible={projectModalOpen} width={'100%'}>
             <h1>
                 ProjectModal
             </h1>
-            <ButtonNoPadding onClick={props.onClose}>关闭</ButtonNoPadding>
+            <ButtonNoPadding onClick={close}>关闭</ButtonNoPadding>
         </Drawer>
     )
 }

@@ -22,7 +22,7 @@ interface ListProps extends TableProps<Project>{
    // list: Project[]
     users: User[],
     refresh?: ()=>void;
-    setProjectModalOpen: (isOpen: boolean)=>void
+    //setProjectModalOpen: (isOpen: boolean)=>void
 }
 
 //type PropsType = Omit<ListProps,'users'>
@@ -77,12 +77,7 @@ export const List = ({ users, ...props }: ListProps) => {
                         overlay={
                             <Menu>
                                 <Menu.Item key={'edit'}>
-                                    <ButtonNoPadding
-                                        type='link'
-                                        onClick={() => props.setProjectModalOpen(true)}
-                                    >
-                                        编辑
-                                    </ButtonNoPadding>
+                                  
                                 </Menu.Item>
                             </Menu>
                         }>

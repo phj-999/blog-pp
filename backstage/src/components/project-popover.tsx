@@ -5,11 +5,13 @@ import { List } from 'antd'
 import styled from '@emotion/styled'
 import { Divider } from 'rc-menu'
 import { ButtonNoPadding } from './lib'
+import { useProjectModal } from '../screen/project-list/util'
 
-export const ProjectOpover = (props:{setProjectModalOpen:(isOpen:boolean)=>void}) => {
+export const ProjectOpover = () => {
 
     const { data: projects, isLoading } = useProjects()
     const pinnedProjects = projects?.filter(project => project.pin)
+    const {projectModalOpen,open} = useProjectModal()
 
     const content = <ContentContainer>
         <Typography.Text type='secondary'>
@@ -28,7 +30,7 @@ export const ProjectOpover = (props:{setProjectModalOpen:(isOpen:boolean)=>void}
         <Divider/>
         <ButtonNoPadding 
         type={"link"}
-        onClick={()=>props.setProjectModalOpen(true)}
+        onClick={open}
         >创建项目</ButtonNoPadding>
     </ContentContainer>
 
