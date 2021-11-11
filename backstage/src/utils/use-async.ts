@@ -45,7 +45,7 @@ export const useAsync = <D>(
     
     const safeDispatch = useSafeDispatch(dispatch)
 
-    const mountedRef = useMountedRef()
+    //const mountedRef = useMountedRef()
 
     const [retry, setRetry] = useState(()=>()=>{})
 
@@ -103,7 +103,6 @@ export const useAsync = <D>(
         setData,
         setError,
         retry,  //retry调用的时候重新调用一次run
-        ...state,
-        
+        ...state,       
     }
 }
