@@ -26,7 +26,7 @@ import { useDispatch } from 'react-redux';
 
 const apiUrl = process.env.REACT_APP_API_URL
 
-export const ProjectListScreen = (props:{setProjectModalOpen:(isOpen:boolean)=>void}) => {
+export const ProjectListScreen = () => {
 
     //const [users, setUsers] = useState([])
     //const [, setParam] = useState({ name: '', personId: "" })
@@ -51,7 +51,7 @@ export const ProjectListScreen = (props:{setProjectModalOpen:(isOpen:boolean)=>v
 
             <SearchPanel users={users || []} param={param} setParam={setParam} />
             {error?<Typography.Text type={"danger"}>{error.message}</Typography.Text>:null}
-            <List setProjectModalOpen={props.setProjectModalOpen} refresh={retry} loading={isLoading} dataSource={list || []} users={users || []} />
+            <List refresh={retry} loading={isLoading} dataSource={list || []} users={users || []} />
         </Container>
     )
 }

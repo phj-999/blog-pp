@@ -8,12 +8,12 @@ import { ButtonNoPadding } from '../../components/lib'
 import { useDispatch, useSelector } from 'react-redux'
 import { projectListActions, selectProjectModalOpen } from './project-list.slice'
 
-export const ProjectModal = (props:{projectModalOpen:boolean,onClose:()=>void}) => {
+export const ProjectModal = () => {
     const dispatch = useDispatch()
     const projectModalOpen = useSelector(selectProjectModalOpen)
  
     return (
-        <Drawer onClose={()=>dispatch(projectListActions.closeProjectModal())} visible={props.projectModalOpen} width={'100%'}>
+        <Drawer onClose={()=>dispatch(projectListActions.closeProjectModal())} visible={projectModalOpen} width={'100%'}>
             <h1>
                 ProjectModal
             </h1>

@@ -16,22 +16,22 @@ import { ProjectOpover } from './components/project-popover'
 export const AuthenticatedApp = () => {
     return (
         <Container>
-            <PageHeader projectButton={}/>
+            <PageHeader/>
             <Main>
                 <Router>
                     <Routes>
-                        <Route path='/projects' element={<ProjectListScreen setProjectModalOpen={setProjectModalOpen}/>} />
+                        <Route path='/projects' element={<ProjectListScreen />} />
                         <Route path='/projects/:projectId/*' element={<ProjectScreen />} />
                         <Navigate to='/projects' />
                     </Routes>
                 </Router>
             </Main>
-            <ProjectModal projectModalOpen={projectModalOpen} onClose={()=>setProjectModalOpen(false)}/>
+            <ProjectModal/>
         </Container>
     )
 }
 
-const PageHeader = (props:{setProjectModalOpen:(isOpen:boolean)=>void}) => {
+const PageHeader = () => {
 
     return <Header between={true}>
         <HeaderLeft gap={true}>

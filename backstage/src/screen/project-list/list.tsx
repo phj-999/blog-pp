@@ -24,7 +24,7 @@ interface ListProps extends TableProps<Project>{
    // list: Project[]
     users: User[],
     refresh?: ()=>void;
-    setProjectModalOpen: (isOpen: boolean)=>void
+    //setProjectModalOpen: (isOpen: boolean)=>void
 }
 
 //type PropsType = Omit<ListProps,'users'>
