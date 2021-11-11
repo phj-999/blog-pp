@@ -1,5 +1,5 @@
 import React from 'react'
-import { Dropdown, Menu, Table } from 'antd';
+import { Button, Dropdown, Menu, Table } from 'antd';
 import dayjs from "dayjs";
 
 import { User } from "./search-panel";
@@ -8,6 +8,8 @@ import { Link } from 'react-router-dom';
 import { Pin } from '../../components/pin';
 import { useEditProject } from '../../utils/project';
 import { ButtonNoPadding } from '../../components/lib';
+import { projectListActions } from './project-list.slice';
+import { useDispatch } from 'react-redux';
 
 export interface Project {
     id: number,
@@ -30,7 +32,7 @@ interface ListProps extends TableProps<Project>{
 export const List = ({ users, ...props }: ListProps) => {
     const {mutate} = useEditProject()
     const pinProject = (id:number) => (pin:boolean) => mutate({id,pin}).then(props.refresh)
-         
+    const dispatch = useDispatch()     
     return (
         <Table
             rowKey='id'
@@ -77,12 +79,7 @@ export const List = ({ users, ...props }: ListProps) => {
                         overlay={
                             <Menu>
                                 <Menu.Item key={'edit'}>
-                                    <ButtonNoPadding
-                                        type='link'
-                                        onClick={() => props.setProjectModalOpen(true)}
-                                    >
-                                        编辑
-                                    </ButtonNoPadding>
+                                   <ButtonNoPadding onClick={()=>dispatch(projectListActions.openProjectModal())} type='link'>编辑</ButtonNoPadding>
                                 </Menu.Item>
                             </Menu>
                         }>

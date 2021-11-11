@@ -21,6 +21,8 @@ import { useUsers } from '../../utils/user';
 //import { useUrlQueryParam } from '../../utils/url';
 import { useProjectsSearchParams } from './util';
 import { Row } from '../../components/lib';
+import { projectListActions } from './project-list.slice';
+import { useDispatch } from 'react-redux';
 
 const apiUrl = process.env.REACT_APP_API_URL
 
@@ -38,12 +40,13 @@ export const ProjectListScreen = (props:{setProjectModalOpen:(isOpen:boolean)=>v
     const {isLoading,error,data:list,retry}=useProjects(useDebounce(param,200))
     const {data:users} = useUsers()
     useDocumentTitle('项目列表',false)
+    const dispatch = useDispatch()
 
     return (
         <Container>
             <Row marginBottom={2} between={true}>
             <h1>项目列表</h1>
-            <Button onClick={()=>props.setProjectModalOpen(true)}>创建项目</Button>
+            <Button onClick={()=>dispatch(projectListActions.openProjectModal())}>创建项目</Button>
             </Row>
 
             <SearchPanel users={users || []} param={param} setParam={setParam} />

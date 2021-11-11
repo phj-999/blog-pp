@@ -14,10 +14,9 @@ import { ProjectModal } from './screen/project-list/project-modal'
 import { ProjectOpover } from './components/project-popover'
 
 export const AuthenticatedApp = () => {
-    const [projectModalOpen,setProjectModalOpen] = useState(false)
     return (
         <Container>
-            <PageHeader setProjectModalOpen={setProjectModalOpen} />
+            <PageHeader projectButton={}/>
             <Main>
                 <Router>
                     <Routes>
@@ -39,7 +38,7 @@ const PageHeader = (props:{setProjectModalOpen:(isOpen:boolean)=>void}) => {
             <ButtonNoPadding type='link' onClick={resetRoute}>
                 <SoftwareLogo width={'18rem'} color={"rgb(38, 132, 255)"} />
             </ButtonNoPadding>
-            <ProjectOpover setProjectModalOpen={props.setProjectModalOpen}/>
+            <ProjectOpover />
             <span>用户</span>
         </HeaderLeft>
         <HeaderRight>
