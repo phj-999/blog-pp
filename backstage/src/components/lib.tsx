@@ -36,11 +36,27 @@ align-items:center;
 export const FullPageErrorFallback = ({ error }: { error: Error|null }) => 
 <FullPage>
     <DevTools />
-    <Typography.Text type={'danger'}>
-        {error?.message}
-    </Typography.Text>
+    <ErrorBox error={error}/>
 </FullPage>
 
 export const ButtonNoPadding = styled(Button) `
     padding:0;
 `
+
+//用于ErrorBox的类型守卫
+const isError = (value:any):value is Error => value?.message
+
+/**
+ * 出现error的时候显示的组件
+ * 
+ */
+export const ErrorBox = ({error}:{error:unknown})=>{
+    if (isError(error)) {
+        return (
+        <Typography.Text type='danger'>
+            {error.message}
+        </Typography.Text>
+        )
+    }
+    return null
+}

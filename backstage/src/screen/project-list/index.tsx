@@ -20,7 +20,7 @@ import { useProjects } from '../../utils/project';
 import { useUsers } from '../../utils/user';
 //import { useUrlQueryParam } from '../../utils/url';
 import { useProjectModal, useProjectsSearchParams } from './util';
-import { ButtonNoPadding, Row } from '../../components/lib';
+import { ButtonNoPadding, ErrorBox, Row } from '../../components/lib';
 
 const apiUrl = process.env.REACT_APP_API_URL
 
@@ -35,7 +35,7 @@ export const ProjectListScreen = () => {
     //const debouncedParam = useDebounce(projectsParam, 200)//用到防抖hook
     //const client = useHttp()
     //const {run,isLoading,error,data:list}=useAsync<Project[]>()
-    const {isLoading,error,data:list,retry}=useProjects(useDebounce(param,200))
+    const {isLoading,error,data:list}=useProjects(useDebounce(param,200))
     const {data:users} = useUsers()
     useDocumentTitle('项目列表',false)
     const{projectModalOpen,open}=useProjectModal()
@@ -51,8 +51,8 @@ export const ProjectListScreen = () => {
             </Row>
 
             <SearchPanel users={users || []} param={param} setParam={setParam} />
-            {error?<Typography.Text type={"danger"}>{error.message}</Typography.Text>:null}
-            <List  refresh={retry} loading={isLoading} dataSource={list || []} users={users || []} />
+            <ErrorBox error={error}/>
+            <List loading={isLoading} dataSource={list || []} users={users || []} />
         </Container>
     )
 }

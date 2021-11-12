@@ -8,6 +8,7 @@ import { Link } from 'react-router-dom';
 import { Pin } from '../../components/pin';
 import { useEditProject } from '../../utils/project';
 import { ButtonNoPadding } from '../../components/lib';
+import { useProjectModal } from './util';
 
 export interface Project {
     id: number,
@@ -21,7 +22,7 @@ export interface Project {
 interface ListProps extends TableProps<Project>{
    // list: Project[]
     users: User[],
-    refresh?: ()=>void;
+    //refresh?: ()=>void;
     //setProjectModalOpen: (isOpen: boolean)=>void
 }
 
@@ -29,8 +30,11 @@ interface ListProps extends TableProps<Project>{
 
 export const List = ({ users, ...props }: ListProps) => {
     const {mutate} = useEditProject()
-    const pinProject = (id:number) => (pin:boolean) => mutate({id,pin}).then(props.refresh)
-         
+    const pinProject = (id:number) => (pin:boolean) => mutate({id,pin})
+    //创建和编辑的时候发生：
+    const {startEdit} = useProjectModal()  
+    const editProject=(id:number)=>()=>startEdit(id)
+    
     return (
         <Table
             rowKey='id'
@@ -77,7 +81,8 @@ export const List = ({ users, ...props }: ListProps) => {
                         overlay={
                             <Menu>
                                 <Menu.Item key={'edit'}>
-                                  
+                                  <Menu.Item onClick={editProject(project.id)} key={'edit'}>编辑</Menu.Item>
+                                  <Menu.Item key={'delete'}>删除</Menu.Item>
                                 </Menu.Item>
                             </Menu>
                         }>
