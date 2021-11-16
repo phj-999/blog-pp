@@ -7,6 +7,7 @@ import { useAuth } from './context/auth-context';
 import { ErrorBoundary } from './components/error-boundary';
 import { FullPageErrorFallback, FullPageLoading } from './components/lib';
 
+//代码分割 动态引入
 const AuthenticatedApp = React.lazy(()=>import ("./authenticated-app"))
 const UnauthenticatedApp = React.lazy(()=>import ("./unauthenticate-app"))
 
