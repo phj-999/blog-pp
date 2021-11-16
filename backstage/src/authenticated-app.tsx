@@ -13,7 +13,7 @@ import { resetRoute } from './utils'
 import { ProjectModal } from './screen/project-list/project-modal'
 import { ProjectOpover } from './components/project-popover'
 
-export const AuthenticatedApp = () => {
+const AuthenticatedApp = () => {
     return (
         <Container>
             <Router>
@@ -30,6 +30,8 @@ export const AuthenticatedApp = () => {
         </Container>
     )
 }
+
+export default AuthenticatedApp
 
 const PageHeader = () => {
 

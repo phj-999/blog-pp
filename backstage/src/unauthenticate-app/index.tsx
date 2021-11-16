@@ -12,7 +12,7 @@ import { useDocumentTitle } from "../utils";
 import { ErrorBox } from "../components/lib";
 
 
-export const UnauthenticatedApp = () => {
+const UnauthenticatedApp = () => {
     const [isRegister, setIsRegister] = useState(false)
     const [error, setError] = useState<Error | null>(null)
     useDocumentTitle('请登陆注册以继续')
@@ -36,3 +36,5 @@ export const UnauthenticatedApp = () => {
         </Container>
     )
 }
+
+export default UnauthenticatedApp
