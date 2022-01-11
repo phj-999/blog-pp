@@ -1,0 +1,31 @@
+@import '@src/styles/mixin.less';
+
+.userinfo {
+    display: flex;
+    align-items: center;
+    height: 100%;
+    
+    .name {
+        font-size: 14px;
+        padding: 0 10px;
+        font-weight: 500;
+        .article-container(80%);
+        @media (max-width: 768px){
+            .article-container(80px);
+        }
+    }
+
+    .close {
+        display: flex;
+        justify-content: center;
+        width: @header-height;
+        align-items: center;
+        height: 100%;
+        border-left: 1px solid #F1F1F1;
+        cursor: pointer;
+/*         .anticon-close-circle {
+            font-size: 18px;
+            cursor: pointer;
+        } */
+    }
+}
