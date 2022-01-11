@@ -12,7 +12,7 @@ import {
 const { Header, Content, Footer, Sider } = Layout;
 const { SubMenu } = Menu;
 
-class SiderDemo extends React.Component {
+export default class SiderDemo extends React.Component {
   state = {
     collapsed: false
   };
@@ -81,7 +81,7 @@ class SiderDemo extends React.Component {
               className="site-layout-background"
               style={{ padding: 24, minHeight: 360 }}
             >
-              Bill is a cat.
+            {this.props.children}
             </div>
           </Content>
           <Footer style={{ textAlign: "center" }}>
@@ -93,10 +93,10 @@ class SiderDemo extends React.Component {
   }
 }
 
-export default () => (
-  <div className={styles.container}>
-    <div id="components-layout-demo-side">
-      <SiderDemo />
-    </div>
-  </div>
-);
+// export default () => (
+//   <div className={styles.container}>
+//     <div id="components-layout-demo-side">
+//       <SiderDemo />
+//     </div>
+//   </div>
+// );

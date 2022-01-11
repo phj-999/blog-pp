@@ -5,14 +5,30 @@ export default defineConfig({
   },
   routes: [
     {
-      name: '空白页面',
-      path: '/user',
-      component: './User',
+      name: '注册页',
+      path: '/userregister',
+      component: './UserRegister',
     },
     {
       path: '/',
-      component: '@/pages/index',
+      component: '@/layouts/LayoutSide/index',
+      routes: [
+     
+        {
+          name: '空白页面',
+          path: '/user',
+          component: './User',
+        },
+        {
+          path: '/',
+          component: '@/pages/index',
+        },
+      ],
     },
   ],
   fastRefresh: {},
+  dva: {
+    immer: true,
+    hmr: false,
+  },
 });

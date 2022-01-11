@@ -1,10 +1,10 @@
 import styles from './index.less';
-import LayoutSide from './LayoutSide';
+import IndexTable from './IndexTable';
 export default function IndexPage() {
   return (
     <div>
-      <h1 className={styles.title}>Page index</h1>
-      <LayoutSide />
+      <IndexTable />
+      <h1>Hello</h1>
     </div>
   );
 }
