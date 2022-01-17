@@ -3,9 +3,7 @@ import IndexRouter from "./router/IndexRouter";
 
 function App() {
   return (
-    <div >
-      <IndexRouter/>
-    </div>
+ <IndexRouter/>
   );
 }
 
