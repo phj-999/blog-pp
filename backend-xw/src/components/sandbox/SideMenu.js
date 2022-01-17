@@ -1,76 +1,83 @@
 import React from "react";
 import { Layout, Menu } from "antd";
-import {
-  UserOutlined,
-  VideoCameraOutlined,
-  UploadOutlined,
-} from "@ant-design/icons";
-
-import './index.css'
+import { withRouter } from "react-router-dom";
+import { UserOutlined } from "@ant-design/icons";
+import { useHistory } from "react-router";
+import "./index.css";
 //模拟数组结构
-const  menuList = [
-    {
-      key:"/home",
-      title:"首页",
-      icon:<UserOutlined />
-    },
-    {
-      key:"/user-manage",
-      title:"用户管理",
-      icon:<UserOutlined />,
-      children:[
-        {
-          key:"/user-manage/list",
-          title:"用户列表",
-          icon:<UserOutlined />
-        }
-      ]
-    },
-    {
-      key:"/right-manage",
-      title:"权限管理",
-      icon:<UserOutlined />,
-      children:[
-        {
-          key:"/right-manage/role/list",
-          title:"角色列表",
-          icon:<UserOutlined />
-        },
-        {
-          key:"/right-manage/right/list",
-          title:"权限列表",
-          icon:<UserOutlined />
-        }
-      ]
-    }
-  ]
+const menuList = [
+  {
+    key: "/home",
+    title: "首页",
+    icon: <UserOutlined />,
+  },
+  {
+    key: "/user-manage",
+    title: "用户管理",
+    icon: <UserOutlined />,
+    children: [
+      {
+        key: "/user-manage/list",
+        title: "用户列表",
+        icon: <UserOutlined />,
+      },
+    ],
+  },
+  {
+    key: "/right-manage",
+    title: "权限管理",
+    icon: <UserOutlined />,
+    children: [
+      {
+        key: "/right-manage/role/list",
+        title: "角色列表",
+        icon: <UserOutlined />,
+      },
+      {
+        key: "/right-manage/right/list",
+        title: "权限列表",
+        icon: <UserOutlined />,
+      },
+    ],
+  },
+];
 
-export default function SideMenu() {
+const SideMenu = () => {
   const { Sider } = Layout;
-  const { SubMenu } = Menu
+  const { SubMenu } = Menu;
+  const history = useHistory();
+  const renderMenu = (menuList) => {
+    return menuList.map((item) => {
+      if (item.children) {
+        return (
+          <SubMenu kry={item.key} icon={item.icon} title={item.title}>
+            {renderMenu(item.children)}
+          </SubMenu>
+        );
+      }
+
+      return (
+        <Menu.Item
+          key={item.key}
+          icon={item.icon}
+          onClick={() => {
+            //  console.log(props)
+            history.push(item.key);
+          }}
+        >
+          {item.title}
+        </Menu.Item>
+      );
+    });
+  };
 
   return (
     <Sider trigger={null} collapsible collapsed={false}>
       <div className="logo">全球新闻发布管理系统</div>
       <Menu theme="dark" mode="inline" defaultSelectedKeys={["1"]}>
-        <Menu.Item key="1" icon={<UserOutlined />}>
-        首页
-        </Menu.Item>
-        <Menu.Item key="2" icon={<VideoCameraOutlined />}>
-          nav 2
-        </Menu.Item>
-        <Menu.Item key="3" icon={<UploadOutlined />}>
-          nav 3
-        </Menu.Item>
-
-        <SubMenu key="sub4" icon={<UploadOutlined />} title="用户管理 Three">
-          <Menu.Item key="9">Option 9</Menu.Item>
-          <Menu.Item key="10">Option 10</Menu.Item>
-          <Menu.Item key="11">Option 11</Menu.Item>
-          <Menu.Item key="12">Option 12</Menu.Item>
-        </SubMenu>
-
+        {renderMenu(menuList)}
       </Menu>
     </Sider>
   );
-}
+};
+export default SideMenu
