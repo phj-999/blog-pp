@@ -12,7 +12,6 @@ export default function TopHeader() {
   const changeCollapsed = () => {
     setCollapsed(!collapsed);
   };
-
   const menu = (
     <Menu>
       <Menu.Item>超级管理员</Menu.Item>
