@@ -1,4 +1,4 @@
-import { Table, Skeleton, Empty, Button, Tag, Modal } from "antd";
+import { Table, Button, Tag, Modal, Popover, Switch } from "antd";
 import {
   DeleteOutlined,
   EditOutlined,
@@ -6,7 +6,7 @@ import {
 } from "@ant-design/icons";
 import axios from "axios";
 import { useQuery, useQueryClient, useMutation } from "react-query";
-import { useState, useCallback, useEffect } from "react";
+import { useState, useEffect } from "react";
 
 const { confirm } = Modal;
 
@@ -40,7 +40,26 @@ const RightList = () => {
               icon={<DeleteOutlined />}
               onClick={() => confirmMethod(item)}
             />
-            <Button type="primary" shape="circle" icon={<EditOutlined />} />
+
+            <Popover
+              content={
+                <div style={{ textAlign: "center" }}>
+                  <Switch
+                    checked={item.pagepermisson}
+                    onChange={() => switchMethod(item)}
+                  ></Switch>
+                </div>
+              }
+              title="页面配置项"
+              trigger={item.pagepermisson === undefined ? "" : "click"}
+            >
+              <Button
+                type="primary"
+                shape="circle"
+                icon={<EditOutlined />}
+                disabled={item.pagepermisson === undefined}
+              />
+            </Popover>
           </div>
         );
       },
@@ -119,6 +138,23 @@ const RightList = () => {
         //   console.log('Cancel');
       },
     });
+  };
+  /**编辑按钮 点击出现气泡卡片开关左右滑动 */
+  const switchMethod = (item) => {
+    console.log(item);
+    item.pagepermisson = item.pagepermisson === 1 ? 0 : 1;
+    // console.log(item)
+    setList([...list]);
+
+    if (item.grade === 1) {
+      axios.patch(`http://localhost:3000/rights/${item.id}`, {
+        pagepermisson: item.pagepermisson,
+      });
+    } else {
+      axios.patch(`http://localhost:3000/children/${item.id}`, {
+        pagepermisson: item.pagepermisson,
+      });
+    }
   };
   return (
     <div>
