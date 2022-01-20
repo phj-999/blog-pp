@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Table, Button, Modal } from "antd";
+import { Table, Button, Modal, Tree } from "antd";
 import {
   DeleteOutlined,
   EditOutlined,
@@ -9,6 +9,12 @@ import axios from "axios";
 
 const RoleList = () => {
   const [dataSource, setdataSource] = useState([]);
+  //树形控件里面的数据
+  const [rightList, setRightList] = useState([]);
+  //handleCancel关闭模态框
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [currentRights, setcurrentRights] = useState([]);
+
   const columns = [
     {
       title: "ID",
@@ -32,7 +38,15 @@ const RoleList = () => {
               icon={<DeleteOutlined />}
               onClick={() => confirmMethod(item)}
             />
-            <Button type="primary" shape="circle" icon={<EditOutlined />} />
+            <Button
+              type="primary"
+              shape="circle"
+              icon={<EditOutlined />}
+              onClick={() => {
+                setIsModalVisible(true);
+                setcurrentRights(item.rights);
+              }}
+            />
           </div>
         );
       },
@@ -53,6 +67,7 @@ const RoleList = () => {
       },
     });
   };
+
   //删除
   const deleteMethod = (item) => {
     // console.log(item)
@@ -62,18 +77,50 @@ const RoleList = () => {
 
   useEffect(() => {
     axios.get("http://localhost:3000/roles").then((res) => {
-      // console.log(res.data)
       setdataSource(res.data);
     });
   }, []);
 
+  //树形控件里面的
+  useEffect(() => {
+    axios.get("http://localhost:3000/rights?_embed=children").then((res) => {
+      setRightList(res.data);
+    });
+  }, []);
+
+  //Modal里面的方法
+  const handleOk = () => {};
+  //handleCancel关闭模态框
+  const handleCancel = () => {
+    setIsModalVisible(false);
+  };
+  /**
+   * 选中和取消树形列表里面的框框
+   */
+  const onCheck = (checkKeys) => {
+    setcurrentRights(checkKeys);
+  };
   return (
     <div>
       <Table
         dataSource={dataSource}
         columns={columns}
         rowKey={(item) => item.id}
-      ></Table>
+      />
+      <Modal
+        title="权限分配"
+        visible={isModalVisible}
+        onOk={handleOk}
+        onCancel={handleCancel}
+      >
+        <Tree
+          checkable
+          checkedKeys={currentRights}
+          onCheck={onCheck}
+          checkStrictly={true} //默认false 设为true 三级部分选不选中 二级部分都不相关 
+          treeData={rightList}
+        />
+      </Modal>
     </div>
   );
 };
