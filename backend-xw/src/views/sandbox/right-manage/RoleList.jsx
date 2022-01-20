@@ -13,7 +13,8 @@ const RoleList = () => {
   const [rightList, setRightList] = useState([]);
   //handleCancel关闭模态框
   const [isModalVisible, setIsModalVisible] = useState(false);
-  const [currentRights, setcurrentRights] = useState([]);
+  const [currentRights, setcurrentRights] = useState([]); //点击的是哪一个（用于小框框选中和取消）
+  const [currentId, setcurrentId] = useState([0]); //点击小框框 currentId就是item.id
 
   const columns = [
     {
@@ -45,6 +46,7 @@ const RoleList = () => {
               onClick={() => {
                 setIsModalVisible(true);
                 setcurrentRights(item.rights);
+                setcurrentId(item.id);
               }}
             />
           </div>
@@ -89,7 +91,27 @@ const RoleList = () => {
   }, []);
 
   //Modal里面的方法
-  const handleOk = () => {};
+  /**
+   * 点ok的时候的回调
+   */
+  const handleOk = () => {
+    //点击ok 隐藏模态框-->同步datasource-->同步后端
+    setIsModalVisible(false);
+    setdataSource(
+      dataSource.map((item) => {
+        if (item.id === currentId) {
+          return {
+            ...item,
+            rights: currentRights,
+          };
+        }
+        return item;
+      })
+    );
+    axios.patch(`http://localhost:3000/roles/${currentId}`, {
+      rights: currentRights,
+    });
+  };
   //handleCancel关闭模态框
   const handleCancel = () => {
     setIsModalVisible(false);
@@ -117,7 +139,7 @@ const RoleList = () => {
           checkable
           checkedKeys={currentRights}
           onCheck={onCheck}
-          checkStrictly={true} //默认false 设为true 三级部分选不选中 二级部分都不相关 
+          checkStrictly={true} //默认false 设为true 三级部分选不选中 二级部分都不相关
           treeData={rightList}
         />
       </Modal>
