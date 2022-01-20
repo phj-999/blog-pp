@@ -23,12 +23,18 @@ const SideMenu = () => {
   const [meun, setMeun] = useState([]);
 
   useEffect(() => {
-    axios
+    let isUnmounted = true
+    const abortController = new window.AbortController()
+  if (isUnmounted)  axios
       .get("http://localhost:3000/rights?_embed=children")
       .then((response) => {
         console.log(response);
         setMeun(response.data);
       });
+      return () => {
+        isUnmounted=false;
+        abortController.abort()
+      };
   }, []);
 
   const checkPagePermission = (item) => {
