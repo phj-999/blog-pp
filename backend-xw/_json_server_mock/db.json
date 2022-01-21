@@ -80,6 +80,15 @@
       "roleState": true,
       "default": false,
       "id": 9
+    },
+    {
+      "username": "vue大佬",
+      "password": "123123",
+      "region": "欧洲",
+      "roleId": 2,
+      "roleState": true,
+      "default": false,
+      "id": 10
     }
   ],
   "roles": [

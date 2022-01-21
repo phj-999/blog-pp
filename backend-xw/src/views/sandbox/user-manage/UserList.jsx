@@ -1,15 +1,20 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Button, Table, Switch, Modal } from "antd";
 import axios from "axios";
-import { EditOutlined } from "@ant-design/icons";
-import DeleteButton from "../../../components/DeleteButton";
+import {
+  DeleteOutlined,
+  EditOutlined,
+  ExclamationCircleOutlined,
+} from "@ant-design/icons";
 import UserForm from "../../../components/user-manage/UserForm";
-const UserList = (props) => {
+
+const UserList = React.memo((props) => {
   const [dataSource, setdataSource] = useState([]);
   const [isAddVisible, setisAddVisible] = useState(false); //是否显示
   const [roleList, setroleList] = useState([]);
   const [regionList, setregionList] = useState([]);
   const addForm = useRef(null);
+  const { confirm } = Modal;
 
   useEffect(() => {
     axios.get("http://localhost:3000/users?_expand=role").then((res) => {
@@ -62,7 +67,13 @@ const UserList = (props) => {
       render: (item) => {
         return (
           <div>
-            <DeleteButton disabledStatus={item} />
+            <Button
+              danger
+              shape="circle"
+              icon={<DeleteOutlined />}
+              onClick={() => confirmMethod(item)}
+              disabled={item.default}
+            />
 
             <Button
               type="primary"
@@ -84,6 +95,7 @@ const UserList = (props) => {
       addForm.current.validateFields().then((value) => {
         setisAddVisible(false);
 
+        addForm.current.resetFields(); //相当于刷新 antd里面的
         //post到后端，生成id，再设置 datasource, 方便后面的删除和更新
         axios
           .post(`http://localhost:3000/users`, {
@@ -92,7 +104,13 @@ const UserList = (props) => {
             default: false,
           })
           .then((res) => {
-            setdataSource([...dataSource, res.data]);
+            setdataSource([
+              ...dataSource,
+              {
+                ...res.data,
+                role: roleList.filter((item) => item.id === value.roleId)[0],
+              },
+            ]);
           });
       });
     } catch (error) {
@@ -100,6 +118,28 @@ const UserList = (props) => {
     }
   };
 
+  //删除
+  const deleteMethod = (item) => {
+    // console.log(item)
+    // 当前页面同步状态 + 后端同步
+
+    setdataSource(dataSource.filter((data) => data.id !== item.id));
+
+    axios.delete(`http://localhost:3000/users/${item.id}`);
+  };
+
+  const confirmMethod = (item) => {
+    confirm({
+      title: "你确定要删除?",
+      icon: <ExclamationCircleOutlined />,
+      onOk() {
+        deleteMethod(item);
+      },
+      onCancel() {
+        //   console.log('Cancel');
+      },
+    });
+  };
   return (
     <div>
       <Button
@@ -136,6 +176,6 @@ const UserList = (props) => {
       </Modal>
     </div>
   );
-};
-
+}
+)
 export default UserList;
