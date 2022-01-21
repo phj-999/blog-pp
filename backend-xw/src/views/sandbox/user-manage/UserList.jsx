@@ -1,18 +1,33 @@
-import React, { useState, useEffect } from "react";
-import { Button, Table, Switch } from "antd";
+import React, { useState, useEffect, useRef } from "react";
+import { Button, Table, Switch, Modal } from "antd";
 import axios from "axios";
-import {
-  EditOutlined,
-} from "@ant-design/icons";
+import { EditOutlined } from "@ant-design/icons";
 import DeleteButton from "../../../components/DeleteButton";
-
+import UserForm from "../../../components/user-manage/UserForm";
 const UserList = (props) => {
   const [dataSource, setdataSource] = useState([]);
+  const [isAddVisible, setisAddVisible] = useState(false); //是否显示
+  const [roleList, setroleList] = useState([]);
+  const [regionList, setregionList] = useState([]);
+  const addForm = useRef(null);
 
   useEffect(() => {
     axios.get("http://localhost:3000/users?_expand=role").then((res) => {
       const list = res.data;
       setdataSource(list);
+    });
+  }, []);
+  useEffect(() => {
+    axios.get("http://localhost:3000/regions").then((res) => {
+      const list = res.data;
+      setregionList(list);
+    });
+  }, []);
+
+  useEffect(() => {
+    axios.get("http://localhost:3000/roles").then((res) => {
+      const list = res.data;
+      setroleList(list);
     });
   }, []);
 
@@ -47,9 +62,7 @@ const UserList = (props) => {
       render: (item) => {
         return (
           <div>
-            <DeleteButton
-              disabledStatus={item}
-            />
+            <DeleteButton disabledStatus={item} />
 
             <Button
               type="primary"
@@ -62,9 +75,42 @@ const UserList = (props) => {
       },
     },
   ];
+  /**
+   * 添加用户
+   *
+   */
+  const addFormOK = () => {
+    try {
+      addForm.current.validateFields().then((value) => {
+        setisAddVisible(false);
+
+        //post到后端，生成id，再设置 datasource, 方便后面的删除和更新
+        axios
+          .post(`http://localhost:3000/users`, {
+            ...value,
+            roleState: true,
+            default: false,
+          })
+          .then((res) => {
+            setdataSource([...dataSource, res.data]);
+          });
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <div>
+      <Button
+        type="primary"
+        onClick={() => {
+          setisAddVisible(true);
+        }}
+      >
+        添加用户
+      </Button>
+
       <Table
         dataSource={dataSource}
         columns={columns}
@@ -73,6 +119,21 @@ const UserList = (props) => {
         }}
         rowKey={(item) => item.id}
       />
+
+      <Modal
+        visible={isAddVisible}
+        title="添加用户"
+        okText="确定"
+        cancelText="取消"
+        onCancel={() => {
+          setisAddVisible(false);
+        }}
+        onOk={() => {
+          addFormOK();
+        }}
+      >
+        <UserForm ref={addForm} regionList={regionList} roleList={roleList} />
+      </Modal>
     </div>
   );
 };
