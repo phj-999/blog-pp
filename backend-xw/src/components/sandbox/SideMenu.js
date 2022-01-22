@@ -23,22 +23,27 @@ const SideMenu = () => {
   const [meun, setMeun] = useState([]);
 
   useEffect(() => {
-    let isUnmounted = true
-    const abortController = new window.AbortController()
-  if (isUnmounted)  axios
-      .get("http://localhost:3000/rights?_embed=children")
-      .then((response) => {
-        console.log(response);
-        setMeun(response.data);
-      });
-      return () => {
-        isUnmounted=false;
-        abortController.abort()
-      };
+    let isUnmounted = true;
+    const abortController = new window.AbortController();
+    if (isUnmounted)
+      axios
+        .get("http://localhost:3000/rights?_embed=children")
+        .then((response) => {
+          console.log(response);
+          setMeun(response.data);
+        });
+    return () => {
+      isUnmounted = false;
+      abortController.abort();
+    };
   }, []);
 
   const checkPagePermission = (item) => {
-    return item.pagepermisson;
+    const {
+      role: { rights },
+    } = JSON.parse(localStorage.getItem("token"));
+    // return item.pagepermisson && 当前用户权限列表.includes(item.key);
+    return item.pagepermisson && rights.includes(item.key);
   };
   /**
    * @description 递归动态渲染 侧边栏内容
