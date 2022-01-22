@@ -33,7 +33,7 @@ const NewsSandbox = () => {
           }}
         >
           <Switch>
-            <Route path="/home" component={Home} />
+            <Route path="/home" component={Home} exact/>
             <Route path="/user-manage/list" component={UserList} />
             <Route path="/right-manage/role/list" component={RoleList} />
             <Route path="/right-manage/right/list" component={RightList} />
