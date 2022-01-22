@@ -44,20 +44,19 @@ const UserList = React.memo((props) => {
     {
       title: "区域",
       dataIndex: "region",
-      filters:[
-        ...regionList.map(item=>({
-          text:item.title,
-          value:item.value
+      filters: [
+        ...regionList.map((item) => ({
+          text: item.title,
+          value: item.value,
         })),
         {
-          text:"全球",
-          value:"全球"
-      }    
+          text: "全球",
+          value: "全球",
+        },
       ],
-      onFilter:(value,item)=>{
-        if (value==="全球")  return item.region===''
-        return item.region===value
-        
+      onFilter: (value, item) => {
+        if (value === "全球") return item.region === "";
+        return item.region === value;
       },
       render: (region) => {
         return <b>{region === "" ? "全球" : region}</b>;
@@ -208,7 +207,7 @@ const UserList = React.memo((props) => {
         })
       );
       setisUpdateDisabled(!isUpdateDisabled);
-      axios.patch(`http://localhost:3000/users/${current.id}`,value);
+      axios.patch(`http://localhost:3000/users/${current.id}`, value);
     });
   };
 
