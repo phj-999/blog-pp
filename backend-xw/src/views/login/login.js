@@ -1,16 +1,23 @@
 import React from "react";
 import { Form, Input, Button } from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
+import ReParticles from "../../components/ReParticles/ReParticles.jsx";
 import "./login.css";
 
 const Login = () => {
-    
   const onFinish = (values) => {
     console.log("Received values of form: ", values);
   };
 
   return (
-    <div style={{ background: "rgb(35,39,65)", height: "100%" }}>
+    <div
+      style={{
+        background: "rgb(35,39,65)",
+        height: "100%",
+        overflow: "hiddlen",
+      }}
+    >
+      <ReParticles />
       <div className="formContainer">
         <div className="logintitle">发布管理系统</div>
         <Form name="normal_login" className="login-form" onFinish={onFinish}>
