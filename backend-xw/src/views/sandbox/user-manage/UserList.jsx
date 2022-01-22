@@ -15,6 +15,7 @@ const UserList = React.memo((props) => {
   const [regionList, setregionList] = useState([]);
   const [isUpdateVisible, setisUpdateVisible] = useState(false);
   const [isUpdateDisabled, setisUpdateDisabled] = useState(false);
+  const [current, setCurrent] = useState(null); //编辑按钮的更新用户保存当前的item
   const addForm = useRef(null);
   const { confirm } = Modal;
   const updateForm = useRef(null);
@@ -173,9 +174,28 @@ const UserList = React.memo((props) => {
       }
       updateForm.current.setFieldsValue(item);
     }, 0);
+    setCurrent(item);
   };
   /**更新用户的更新模态框 */
-  const updateFormOK = () => {};
+  const updateFormOK = () => {
+    updateForm.current.validateFields().then((value) => {
+      setisUpdateVisible(false);
+      setdataSource(
+        dataSource.map((item) => {
+          if (item.id === current.id) {
+            return {
+              ...item,
+              ...value,
+              role: roleList.filter((data) => data.id === value.roleId)[0],
+            };
+          }
+          return item;
+        })
+      );
+      setisUpdateDisabled(!isUpdateDisabled);
+      axios.patch(`http://localhost:3000/users/${current.id}`,value);
+    });
+  };
 
   return (
     <div>
