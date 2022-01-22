@@ -13,8 +13,11 @@ const UserList = React.memo((props) => {
   const [isAddVisible, setisAddVisible] = useState(false); //是否显示
   const [roleList, setroleList] = useState([]);
   const [regionList, setregionList] = useState([]);
+  const [isUpdateVisible, setisUpdateVisible] = useState(false);
+  const [isUpdateDisabled, setisUpdateDisabled] = useState(false);
   const addForm = useRef(null);
   const { confirm } = Modal;
+  const updateForm = useRef(null);
 
   useEffect(() => {
     axios.get("http://localhost:3000/users?_expand=role").then((res) => {
@@ -59,7 +62,13 @@ const UserList = React.memo((props) => {
       title: "用户状态",
       dataIndex: "roleState",
       render: (roleState, item) => {
-        return <Switch checked={roleState} disabled={item.default}></Switch>;
+        return (
+          <Switch
+            checked={roleState}
+            disabled={item.default}
+            onChange={() => handleChange(item)}
+          ></Switch>
+        );
       },
     },
     {
@@ -80,6 +89,7 @@ const UserList = React.memo((props) => {
               shape="circle"
               icon={<EditOutlined />}
               disabled={item.default}
+              onClick={() => handleUpdate(item)}
             />
           </div>
         );
@@ -140,6 +150,33 @@ const UserList = React.memo((props) => {
       },
     });
   };
+
+  /**用户状态滑块关闭打开 */
+  const handleChange = (item) => {
+    item.roleState = !item.roleState;
+    setdataSource([...dataSource]);
+    axios.patch(`http://localhost:3000/users/${item.id}`, {
+      roleState: item.roleState,
+    });
+  };
+
+  /**编辑按钮的更新用户 */
+  const handleUpdate = (item) => {
+    setTimeout(() => {
+      setisUpdateVisible(true);
+      if (item.roleId === 1) {
+        //禁用
+        setisUpdateDisabled(true);
+      } else {
+        //取消禁用
+        setisUpdateDisabled(false);
+      }
+      updateForm.current.setFieldsValue(item);
+    }, 0);
+  };
+  /**更新用户的更新模态框 */
+  const updateFormOK = () => {};
+
   return (
     <div>
       <Button
@@ -174,8 +211,26 @@ const UserList = React.memo((props) => {
       >
         <UserForm ref={addForm} regionList={regionList} roleList={roleList} />
       </Modal>
+
+      <Modal
+        visible={isUpdateVisible}
+        title="更新用户"
+        okText="更新"
+        cancelText="取消"
+        onCancel={() => {
+          setisUpdateVisible(false);
+          setisUpdateDisabled(!isUpdateDisabled);
+        }}
+        onOk={() => updateFormOK()}
+      >
+        <UserForm
+          regionList={regionList}
+          roleList={roleList}
+          ref={updateForm}
+          isUpdateDisabled={isUpdateDisabled}
+        />
+      </Modal>
     </div>
   );
-}
-)
+});
 export default UserList;
