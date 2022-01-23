@@ -1,20 +1,27 @@
-import React from "react";
-
+import React, { useEffect, useState } from "react";
 
 import SideMenu from "../../components/sandbox/SideMenu";
 import TopHeader from "../../components/sandbox/TopHeader";
 import NewsRouter from "../../components/sandbox/NewsRouter";
 
-
 //css
 import "./NewsSandBox.css";
+import "nprogress/nprogress.css";
 
 //antd
-import { Layout } from "antd";
+import { Layout, version } from "antd";
+import NProgress from "nprogress";
 
 const { Content } = Layout;
 
 const NewsSandbox = () => {
+
+  //顶部的进度条
+  NProgress.start();
+  useEffect(() => {
+    NProgress.done();
+  });
+
   return (
     <Layout>
       <SideMenu></SideMenu>
@@ -26,10 +33,10 @@ const NewsSandbox = () => {
             margin: "24px 16px",
             padding: 24,
             minHeight: 280,
-            overflow: "auto"
+            overflow: "auto",
           }}
         >
-         <NewsRouter/>
+          <NewsRouter />
         </Content>
       </Layout>
     </Layout>
