@@ -15,7 +15,7 @@ const iconList = {
   //.......
 };
 
-const SideMenu = () => {
+const SideMenu = React.memo(() => {
   const { Sider } = Layout;
   const { SubMenu } = Menu;
   const history = useHistory();
@@ -97,5 +97,5 @@ const SideMenu = () => {
       </div>
     </Sider>
   );
-};
+});
 export default SideMenu;

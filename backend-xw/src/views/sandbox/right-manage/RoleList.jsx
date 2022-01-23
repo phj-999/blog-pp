@@ -1,3 +1,4 @@
+/**角色列表 */
 import React, { useState, useEffect } from "react";
 import { Table, Button, Modal, Tree } from "antd";
 import {
@@ -7,7 +8,7 @@ import {
 } from "@ant-design/icons";
 import axios from "axios";
 
-const RoleList = () => {
+const RoleList = React.memo(() => {
   const [dataSource, setdataSource] = useState([]);
   //树形控件里面的数据
   const [rightList, setRightList] = useState([]);
@@ -145,6 +146,6 @@ const RoleList = () => {
       </Modal>
     </div>
   );
-};
+});
 
 export default RoleList;

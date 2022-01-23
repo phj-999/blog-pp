@@ -9,7 +9,7 @@ import { useHistory } from "react-router-dom";
 import {logouthandle} from '../../views/login/store/actionCreators';
 import { useDispatch } from "react-redux";
 
-export default function TopHeader() {
+export default React.memo(function TopHeader() {
   const { Header } = Layout;
   const [collapsed, setCollapsed] = useState(false);
   const history = useHistory();
@@ -59,4 +59,4 @@ export default function TopHeader() {
       </div>
     </Header>
   );
-}
+})
