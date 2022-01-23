@@ -20,12 +20,33 @@ const UserList = React.memo((props) => {
   const { confirm } = Modal;
   const updateForm = useRef(null);
 
+  const { roleId, region, username } = JSON.parse(
+    localStorage.getItem("token")
+  );
+
   useEffect(() => {
+    const roleObj = {
+      1: "superadmin",
+      2: "admin",
+      3: "editor",
+    };
     axios.get("http://localhost:3000/users?_expand=role").then((res) => {
       const list = res.data;
-      setdataSource(list);
+      //若是超级管理员 展示list全部列表
+      //若不是  把自己过滤出来  把自己的下面的等级权限的过滤出来
+      setdataSource(
+        roleObj[roleId] === "superadmin"
+          ? list
+          : [
+              ...list.filter((item) => item.username === username),
+              ...list.filter(
+                (item) =>
+                  item.region === region && roleObj[item.roleId] === "editor"
+              ),
+            ]
+      );
     });
-  }, []);
+  }, [region, roleId, username]);
   useEffect(() => {
     axios.get("http://localhost:3000/regions").then((res) => {
       const list = res.data;
@@ -262,6 +283,7 @@ const UserList = React.memo((props) => {
           roleList={roleList}
           ref={updateForm}
           isUpdateDisabled={isUpdateDisabled}
+          isUpdate={true}
         />
       </Modal>
     </div>
