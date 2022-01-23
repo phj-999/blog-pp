@@ -1,19 +1,18 @@
-import './App.css'
+import "./App.css";
 import IndexRouter from "./router/IndexRouter";
-import {
+import store from "./store";
 
+import { QueryClient, QueryClientProvider } from "react-query";
+import { Provider } from "react-redux";
 
-  QueryClient,
-
-  QueryClientProvider,
-
-} from 'react-query'
-const queryClient = new QueryClient()
+const queryClient = new QueryClient();
 function App() {
   return (
-    <QueryClientProvider client={queryClient}>
- <IndexRouter/>
- </QueryClientProvider>
+    <Provider store={store}>
+      <QueryClientProvider client={queryClient}>
+        <IndexRouter />
+      </QueryClientProvider>
+    </Provider>
   );
 }
 

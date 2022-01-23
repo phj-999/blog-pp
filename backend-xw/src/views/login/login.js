@@ -1,28 +1,47 @@
-import React from "react";
+import React, { useEffect,useState } from "react";
 import { Form, Input, Button, message } from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
 import ReParticles from "../../components/ReParticles/ReParticles.jsx";
 import "./login.css";
-import axios from "axios";
-import { useHistory } from "react-router";
+import { login } from "./store/actionCreators";
+import { useHistory, useLocation } from "react-router";
+import { shallowEqual, useDispatch, useSelector } from "react-redux";
 
 const Login = () => {
+  
+  const location = useLocation()
   const history = useHistory();
+  const dispatch = useDispatch();
+  const [fresh, setFresh] = useState(false);
+  const userLogin = useSelector(state => state.userLogin,shallowEqual)
+  const {loading, error, user } = userLogin
+  const redirect = location.search
+  ? location.search.split("=")[1]
+  : "/";
 
-  const onFinish = (values) => {
+  useEffect(() => {
+    if (user) {
+     console.log(user);
+      history.push(redirect);
+      message.destroy('loginLoading')
+    }
+  }, [fresh, user])
+
+  const onFinish = async(values) => {
+   try {
     console.log("Received values of form: ", values);
-    axios
-      .get(
-        `http://localhost:3000/users?username=${values.username}&password=${values.password}&roleState=true&_expand=role`
-      )
-      .then((res) => {
-        if (res.data.length === 0) {
-          message.error("不匹配");
-        } else {
-          localStorage.setItem("token", JSON.stringify(res.data[0]));
-          history.push("/");
-        }
-      });
+   
+     console.log(loading)
+     message.loading({
+      content:'加载中',
+      key:'loginLoading'
+     })
+    dispatch(login(values));
+    setFresh(true)
+   } catch (error) {
+     console.log(error);
+   }
+  
   };
 
   return (
@@ -33,7 +52,7 @@ const Login = () => {
         overflow: "hiddlen",
       }}
     >
-      <ReParticles />
+      { <ReParticles />}
       <div className="formContainer">
         <div className="logintitle">发布管理系统</div>
         <Form name="normal_login" className="login-form" onFinish={onFinish}>

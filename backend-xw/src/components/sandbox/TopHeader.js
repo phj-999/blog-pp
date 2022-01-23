@@ -6,17 +6,23 @@ import {
   UserOutlined,
 } from "@ant-design/icons";
 import { useHistory } from "react-router-dom";
+import {logouthandle} from '../../views/login/store/actionCreators';
+import { useDispatch } from "react-redux";
 
 export default function TopHeader() {
   const { Header } = Layout;
   const [collapsed, setCollapsed] = useState(false);
   const history = useHistory();
+ 
+  const dispatch = useDispatch()
+ 
   const changeCollapsed = () => {
     setCollapsed(!collapsed);
   };
   // 退出
+
   const logout = () => {
-    localStorage.removeItem("token");
+    dispatch(logouthandle());
     history.replace("/login");
   };
 
