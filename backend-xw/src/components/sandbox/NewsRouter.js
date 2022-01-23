@@ -21,7 +21,7 @@ import axios from "axios";
 
 const LocalRouterMap = {
   "/home": Home,
-  "user-manage/list": UserList,
+  "/user-manage/list": UserList,
   "/right-manage/role/list": RoleList,
   "/right-manage/right/list": RightList,
   "/news-manage/add": NewsAdd,
@@ -36,37 +36,56 @@ const LocalRouterMap = {
 
 const NewsRouter = () => {
   const [backRouteList, setBackRouteList] = useState([]);
-  
-  useEffect(()=>{
-    Promise.all([
-        axios.get("http://localhost:3000/rights"),
-        axios.get("http://localhost:3000/children"),
-    ]).then(res=>{
-        // console.log(res)
-        setBackRouteList([...res[0].data,...res[1].data])
-         console.log(backRouteList)
-    })
-},[])
 
+  useEffect(() => {
+    Promise.all([
+      axios.get("http://localhost:3000/rights"),
+      axios.get("http://localhost:3000/children"),
+    ]).then((res) => {
+      setBackRouteList([...res[0].data, ...res[1].data]);
+    });
+  }, []);
+
+  const {
+    role: { rights },
+  } = JSON.parse(localStorage.getItem("token"));
+  /**
+   * 检测有无 key: "/xx-x"路径 item.pagepermisson
+   * 遍历中有则渲染 无责不渲染 这样可以避免不显示菜单时候 输入路由进来的情况
+   */
+  const checkRoute = (item) => {
+    return LocalRouterMap[item.key] && item.pagepermisson;
+  };
+
+  /**检测是否具有某个权限  role:{rights}里面是权限  路由形式的
+   * 无则渲染 无则不渲染
+   */
+  const checkUserPermission = (item) => {
+    return rights.includes(item.key);
+  };
   return (
     <Switch>
-        {/* 遍历路由 */}
-        {
-            backRouteList.map(item=>
-               {
-              
-                       return  <Route exact path={item.key} key={item.key} component={LocalRouterMap[item.key]}/>
-              
-               }
-            )
+      {/* 遍历路由 */}
+      {backRouteList.map((item) => {
+        if (checkRoute(item) && checkUserPermission(item)) {
+          return (
+            <Route
+              path={item.key}
+              key={item.key}
+              component={LocalRouterMap[item.key]}
+              exact
+            />
+          );
         }
+        return null;
+      })}
       {/* <Route path="/home" component={Home} exact />
       <Route path="/user-manage/list" component={UserList} />
       <Route path="/right-manage/role/list" component={RoleList} />
       <Route path="/right-manage/right/list" component={RightList} /> */}
 
       <Redirect from="/" to="/home" exact />
-      <Route path="*" component={Nopermission} />
+      {backRouteList.length > 0 && <Route path="*" component={Nopermission} />}
     </Switch>
   );
 };
