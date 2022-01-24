@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 
 import SideMenu from "../../components/sandbox/SideMenu";
 import TopHeader from "../../components/sandbox/TopHeader";
@@ -9,7 +9,7 @@ import "./NewsSandBox.css";
 import "nprogress/nprogress.css";
 
 //antd
-import { Layout, version } from "antd";
+import { Layout } from "antd";
 import NProgress from "nprogress";
 
 const { Content } = Layout;
