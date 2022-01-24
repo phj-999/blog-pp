@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import { PageHeader, Steps, Button, Input, Form, Select } from "antd";
-import axios from "axios";
+import { getcategories } from "../../../service/newsadd";
 
 const NewsAdd = () => {
   const [current, setCurrent] = useState(0); //当前第几步的值
@@ -8,12 +8,11 @@ const NewsAdd = () => {
   const { Option } = Select;
   const { Step } = Steps;
   const NewsForm = useRef(null);
-
+  
   //分类的内容
   useEffect(() => {
-    axios.get("/categories").then((res) => {
-      console.log(res.data);
-      setCategoryList(res.data);
+    getcategories().then((res) => {
+      setCategoryList(res);
     });
   }, []);
 
