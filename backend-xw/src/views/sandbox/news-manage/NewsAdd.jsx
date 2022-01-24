@@ -22,8 +22,15 @@ const NewsAdd = () => {
   };
   //下一步
   const handleNext = () => {
+   if (current===0) {
+     NewsForm.current.validateFields().then(res=>{
+      setCurrent(current + 1);
+     }).catch(error=>{
+        console.log(error);
+     })
+   }else{
     setCurrent(current + 1);
-    console.log(current);
+   }
   };
   // 上一步
   const handlePrevious = () => {
