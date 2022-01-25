@@ -7,7 +7,7 @@ const NewDraft = () => {
  
     
   return <div>
-     12434234
+     12434234NewDraft
   </div>;
 };
 

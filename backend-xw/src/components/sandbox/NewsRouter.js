@@ -12,7 +12,7 @@ import NewDraft from "../../views/sandbox/news-manage/NewDraft";
 import NewsCategory from "../../views/sandbox/news-manage/NewsCategory";
 
 import Audit from "../../views/sandbox/audit-manage/Audit";
-import AuditList from "../../views/sandbox/audit-manage/Audit";
+import AuditList from "../../views/sandbox/audit-manage/AuditList";
 
 import Unpublished from "../../views/sandbox/publish-manage/Unpublished";
 import Published from "../../views/sandbox/publish-manage/Published";

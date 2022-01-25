@@ -1,15 +1,26 @@
 import React, { useState, useRef, useEffect } from "react";
-import { PageHeader, Steps, Button, Input, Form, Select } from "antd";
-import { getcategories } from "../../../service/newsadd";
+import {
+  PageHeader,
+  Steps,
+  Button,
+  Input,
+  Form,
+  Select,
+  notification,
+} from "antd";
+import { getcategories, save } from "../../../service/newsadd";
 import { errorModal } from "../../../components/error/ErrorModal";
 import NewsEditor from "../../../components/NewsEditor/NewsEditor";
 
-const NewsAdd = () => {
+const NewsAdd = (props) => {
   const [current, setCurrent] = useState(0); //当前第几步的值
   const [categoryList, setCategoryList] = useState([]);
+  const [content, setContent] = useState("");
+  const [formInfo, setformInfo] = useState({});
   const { Option } = Select;
   const { Step } = Steps;
   const NewsForm = useRef(null);
+  const User = JSON.parse(localStorage.getItem("token"));
 
   //分类的内容
   useEffect(() => {
@@ -28,6 +39,7 @@ const NewsAdd = () => {
       NewsForm.current
         .validateFields()
         .then((res) => {
+          setformInfo(res);
           setCurrent(current + 1);
         })
         .catch((error) => {
@@ -35,12 +47,50 @@ const NewsAdd = () => {
           errorModal(error);
         });
     } else {
-      setCurrent(current + 1);
+      if (content === "" || content.trim() === "<p></p>") {
+        errorModal("内容不能为空");
+      } else {
+        setCurrent(current + 1);
+      }
     }
   };
   // 上一步
   const handlePrevious = () => {
     setCurrent(current - 1);
+  };
+  /**
+   * 保存草稿或者提交
+   * @param {number} auditState
+   * auditState=0 表示保存草稿
+   * auditState=1 表示提交审核
+   */
+  const handleSave = (auditState) => {
+    console.log("fafa");
+    save({
+      ...formInfo,
+      content: content,
+      region: User.region ? User.region : "全球",
+      author: User.username,
+      roleId: User.roleId,
+      auditState: auditState,
+      publishState: 0,
+      createTime: Date.now(),
+      star: 0,
+      view: 0,
+    }).then((res) => {
+      console.log(res,'postres');
+      props.history.push(
+        auditState === 0 ? "/news-manage/draft" : "/audit-manage/list"
+      );
+      //提示
+      notification.info({
+        message: `通知`,
+        description: `您可以到${
+          auditState === 0 ? "草稿箱" : "审核列表"
+        }中查看您的新闻`,
+        placement: "bottomRight",
+      });
+    });
   };
 
   const renderContent = () => (
@@ -80,16 +130,14 @@ const NewsAdd = () => {
       <div style={{ marginTop: "50px", display: current === 1 ? "" : "none" }}>
         <NewsEditor
           getContent={(value) => {
-            console.log(value);
+            setContent(value);
+            console.log(value, "value");
           }}
         />
       </div>
 
       <div style={{ display: current === 2 ? "" : "none" }}>
-        {/* <Input placeholder="input with clear icon" allowClear 
-        //onChange={} 
-        /> */}
-        333
+ 
       </div>
     </>
   );
@@ -111,8 +159,14 @@ const NewsAdd = () => {
       >
         {current === 2 && (
           <span style={{ display: "inline-block" }}>
-            <Button type="primary">保存草稿</Button>
-            <Button style={{ marginLeft: "25px" }} danger>
+            <Button type="primary" onClick={() => handleSave(0)}>
+              保存草稿
+            </Button>
+            <Button
+              onClick={() => handleSave(1)}
+              style={{ marginLeft: "25px" }}
+              danger
+            >
               提交审核
             </Button>
           </span>
