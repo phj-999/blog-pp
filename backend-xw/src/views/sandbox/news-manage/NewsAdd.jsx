@@ -1,6 +1,8 @@
 import React, { useState, useRef, useEffect } from "react";
 import { PageHeader, Steps, Button, Input, Form, Select } from "antd";
 import { getcategories } from "../../../service/newsadd";
+import { errorModal } from "../../../components/error/ErrorModal";
+import NewsEditor from "../../../components/NewsEditor/NewsEditor";
 
 const NewsAdd = () => {
   const [current, setCurrent] = useState(0); //当前第几步的值
@@ -8,7 +10,7 @@ const NewsAdd = () => {
   const { Option } = Select;
   const { Step } = Steps;
   const NewsForm = useRef(null);
-  
+
   //分类的内容
   useEffect(() => {
     getcategories().then((res) => {
@@ -22,15 +24,19 @@ const NewsAdd = () => {
   };
   //下一步
   const handleNext = () => {
-   if (current===0) {
-     NewsForm.current.validateFields().then(res=>{
+    if (current === 0) {
+      NewsForm.current
+        .validateFields()
+        .then((res) => {
+          setCurrent(current + 1);
+        })
+        .catch((error) => {
+          console.log(error);
+          errorModal(error);
+        });
+    } else {
       setCurrent(current + 1);
-     }).catch(error=>{
-        console.log(error);
-     })
-   }else{
-    setCurrent(current + 1);
-   }
+    }
   };
   // 上一步
   const handlePrevious = () => {
@@ -71,11 +77,12 @@ const NewsAdd = () => {
         </Form>
       </div>
 
-      <div style={{ display: current === 1 ? "" : "none" }}>
-        {/* <Input placeholder="input with clear icon" allowClear 
-        //onChange={} 
-        /> */}
-        222
+      <div style={{ marginTop: "50px", display: current === 1 ? "" : "none" }}>
+        <NewsEditor
+          getContent={(value) => {
+            console.log(value);
+          }}
+        />
       </div>
 
       <div style={{ display: current === 2 ? "" : "none" }}>
