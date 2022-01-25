@@ -12,7 +12,7 @@ import { getcategories, save } from "../../../service/newsadd";
 import { errorModal } from "../../../components/error/ErrorModal";
 import NewsEditor from "../../../components/NewsEditor/NewsEditor";
 
-const NewsAdd = (props) => {
+const NewsAdd = React.memo((props) => {
   const [current, setCurrent] = useState(0); //当前第几步的值
   const [categoryList, setCategoryList] = useState([]);
   const [content, setContent] = useState("");
@@ -34,9 +34,9 @@ const NewsAdd = (props) => {
     wrapperCol: { span: 19 },
   };
   //下一步
-  const handleNext = () => {
+  const handleNext = async () => {
     if (current === 0) {
-      NewsForm.current
+      await NewsForm.current
         .validateFields()
         .then((res) => {
           setformInfo(res);
@@ -64,9 +64,9 @@ const NewsAdd = (props) => {
    * auditState=0 表示保存草稿
    * auditState=1 表示提交审核
    */
-  const handleSave = (auditState) => {
+  const handleSave = async (auditState) => {
     console.log("fafa");
-    save({
+    await save({
       ...formInfo,
       content: content,
       region: User.region ? User.region : "全球",
@@ -78,7 +78,7 @@ const NewsAdd = (props) => {
       star: 0,
       view: 0,
     }).then((res) => {
-      console.log(res,'postres');
+      console.log(res, "postres");
       props.history.push(
         auditState === 0 ? "/news-manage/draft" : "/audit-manage/list"
       );
@@ -136,9 +136,7 @@ const NewsAdd = (props) => {
         />
       </div>
 
-      <div style={{ display: current === 2 ? "" : "none" }}>
- 
-      </div>
+      <div style={{ display: current === 2 ? "" : "none" }}></div>
     </>
   );
 
@@ -206,6 +204,5 @@ const NewsAdd = (props) => {
       </Content>
     </PageHeader>
   );
-};
-
+});
 export default NewsAdd;
