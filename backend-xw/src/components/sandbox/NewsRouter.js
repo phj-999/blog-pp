@@ -10,6 +10,7 @@ import UserList from "../../views/sandbox/user-manage/UserList";
 import NewsAdd from "../../views/sandbox/news-manage/NewsAdd";
 import NewDraft from "../../views/sandbox/news-manage/NewDraft";
 import NewsCategory from "../../views/sandbox/news-manage/NewsCategory";
+import NewsPreview from "../../views/sandbox/news-manage/NewsPreview";
 
 import Audit from "../../views/sandbox/audit-manage/Audit";
 import AuditList from "../../views/sandbox/audit-manage/AuditList";
@@ -26,6 +27,7 @@ const LocalRouterMap = {
   "/right-manage/right/list": RightList,
   "/news-manage/add": NewsAdd,
   "/news-manage/draft": NewDraft, //草稿箱,
+  "/news-manage/preview/:id":NewsPreview,//草稿箱某条数据的预览页面
   "/news-manage/category": NewsCategory,
   "/audit-manage/audit": Audit,
   "/audit-manage/list": AuditList,
@@ -54,7 +56,7 @@ const NewsRouter = () => {
    * 遍历中有则渲染 无责不渲染 这样可以避免不显示菜单时候 输入路由进来的情况
    */
   const checkRoute = (item) => {
-    return LocalRouterMap[item.key] && item.pagepermisson;
+    return LocalRouterMap[item.key] && (item.pagepermisson||item.routepermisson);
   };
 
   /**检测是否具有某个权限  role:{rights}里面是权限  路由形式的

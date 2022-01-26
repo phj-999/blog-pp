@@ -7,6 +7,7 @@ import {
   UploadOutlined,
 } from "@ant-design/icons";
 import { getdraftdate, deletedraftdate } from "../../../service/newdraft";
+import { Link } from "react-router-dom";
 
 const NewDraft = () => {
   const { confirm } = Modal;
@@ -24,6 +25,9 @@ const NewDraft = () => {
     {
       title: "新闻标题",
       dataIndex: "title",
+      render: (title, item) => {
+        return <Link to={`/news-manage/preview/${item.id}`}>{title}</Link>;
+      },
     },
     {
       title: "作者",
