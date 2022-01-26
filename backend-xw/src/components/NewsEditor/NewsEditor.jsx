@@ -9,7 +9,7 @@ import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 const NewsEditor = React.memo((props) => {
   useEffect(() => {
     const html = props.content;
-    console.log(html,'html');
+    console.log(html, "html");
     if (html === undefined) return;
     const contentBlock = htmlToDraft(html);
     if (contentBlock) {
