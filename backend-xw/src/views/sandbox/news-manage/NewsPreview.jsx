@@ -1,3 +1,4 @@
+/**预览草稿页面 */
 import React, { useEffect, useState } from "react";
 import { PageHeader, Descriptions } from "antd";
 import moment from "moment";
@@ -60,9 +61,9 @@ const NewsPreview = () => {
       }}
     >
       <div
-        //  dangerouslySetInnerHTML={{
-        //    __html: newsInfo.content,
-        //  }}
+        dangerouslySetInnerHTML={{
+          __html: newsInfo?.content,
+        }}
         style={{
           margin: "0 24px",
           border: "1px solid gray",

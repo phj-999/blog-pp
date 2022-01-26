@@ -8,11 +8,13 @@ import {
 } from "@ant-design/icons";
 import { getdraftdate, deletedraftdate } from "../../../service/newdraft";
 import { Link } from "react-router-dom";
+import { useHistory } from "react-router";
 
 const NewDraft = () => {
   const { confirm } = Modal;
   const [dataSource, setdataSource] = useState([]);
   const { username } = JSON.parse(localStorage.getItem("token"));
+  const history = useHistory();
 
   const columns = [
     {
@@ -52,7 +54,11 @@ const NewDraft = () => {
               onClick={() => confirmMethod(item)}
             />
 
-            <Button shape="circle" icon={<EditOutlined />} />
+            <Button
+              shape="circle"
+              icon={<EditOutlined />}
+              onClick={() => history.push(`/news-manage/update/${item.id}`)}
+            />
 
             <Button type="primary" shape="circle" icon={<UploadOutlined />} />
           </div>

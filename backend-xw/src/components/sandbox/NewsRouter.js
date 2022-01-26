@@ -11,6 +11,7 @@ import NewsAdd from "../../views/sandbox/news-manage/NewsAdd";
 import NewDraft from "../../views/sandbox/news-manage/NewDraft";
 import NewsCategory from "../../views/sandbox/news-manage/NewsCategory";
 import NewsPreview from "../../views/sandbox/news-manage/NewsPreview";
+import NewsUpdate from "../../views/sandbox/news-manage/NewsUpdate";
 
 import Audit from "../../views/sandbox/audit-manage/Audit";
 import AuditList from "../../views/sandbox/audit-manage/AuditList";
@@ -28,6 +29,7 @@ const LocalRouterMap = {
   "/news-manage/add": NewsAdd,
   "/news-manage/draft": NewDraft, //草稿箱,
   "/news-manage/preview/:id":NewsPreview,//草稿箱某条数据的预览页面
+  "/news-manage/update/:id":NewsUpdate,//更新新闻页面
   "/news-manage/category": NewsCategory,
   "/audit-manage/audit": Audit,
   "/audit-manage/list": AuditList,
