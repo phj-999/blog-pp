@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Button, Table, Modal } from "antd";
+import { Button, Table, Modal, notification } from "antd";
 import {
   DeleteOutlined,
   EditOutlined,
@@ -9,6 +9,7 @@ import {
 import { getdraftdate, deletedraftdate } from "../../../service/newdraft";
 import { Link } from "react-router-dom";
 import { useHistory } from "react-router";
+import { patchnews } from "../../../service/newsupdate";
 
 const NewDraft = () => {
   const { confirm } = Modal;
@@ -60,7 +61,15 @@ const NewDraft = () => {
               onClick={() => history.push(`/news-manage/update/${item.id}`)}
             />
 
-            <Button type="primary" shape="circle" icon={<UploadOutlined />} />
+            <Button
+              type="primary"
+              shape="circle"
+              icon={<UploadOutlined />}
+              onClick={(e) => {
+                e.stopPropagation();
+                handleCheck(item.id);
+              }}
+            />
           </div>
         );
       },
@@ -93,6 +102,20 @@ const NewDraft = () => {
       onCancel() {
         //   console.log('Cancel');
       },
+    });
+  };
+
+  const handleCheck = (id) => {
+    patchnews(`${id}`, {
+      auditState: 1,
+    }).then((res) => {
+      history.push("/audit-manage/list");
+
+      notification.info({
+        message: `通知`,
+        description: `您可以到${"审核列表"}中查看您的新闻`,
+        placement: "bottomRight",
+      });
     });
   };
 

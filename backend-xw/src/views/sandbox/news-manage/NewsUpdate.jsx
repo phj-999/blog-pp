@@ -174,7 +174,13 @@ const NewsUpdate = (props) => {
       >
         {current === 2 && (
           <span style={{ display: "inline-block" }}>
-            <Button type="primary" onClick={() => handleSave(0)}>
+            <Button
+              type="primary"
+              onClick={(e) => {
+                e.stopPropagation();
+                handleSave(0);
+              }}
+            >
               保存草稿
             </Button>
             <Button
