@@ -1,9 +1,9 @@
 import { createStore } from 'vuex'
 
 export default createStore({
-  state: ()=>{
+  state: () => {
     return {
-      name:'cc'
+      name: 'cc'
     }
   },
   mutations: {},
