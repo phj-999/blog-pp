@@ -1,7 +1,5 @@
 <template>
   <div class="app">
-    <router-link to="/login">login</router-link> |
-    <router-link to="/main">首页</router-link>
     <router-view />
   </div>
 </template>
@@ -10,9 +8,17 @@
 import { defineComponent } from 'vue'
 
 export default defineComponent({
-  setup() {
-    return {}
+  name: 'App',
+  props: {
+    name: {
+      type: String
+    }
   }
 })
 </script>
-<style lang="less"></style>
+
+<style lang="less">
+.app {
+  height: 100%;
+}
+</style>

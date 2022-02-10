@@ -1,8 +1,10 @@
 {
   "compilerOptions": {
+    //目标代码
     "target": "esnext",
+    //模块化方案
     "module": "esnext",
-    "strict": true,
+    "strict": true,//严格类型检查
     "jsx": "preserve",
     "importHelpers": true,
     "moduleResolution": "node",
@@ -13,7 +15,8 @@
     "baseUrl": ".",
     "types": ["webpack-env"],
     "paths": {
-      "@/*": ["src/*"]
+      "@/*": ["src/*"],
+      "components/*":["src/components/*"]
     },
     "lib": ["esnext", "dom", "dom.iterable", "scripthost"]
   },
