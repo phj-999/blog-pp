@@ -32,6 +32,7 @@ const loginMoudle: Module<ILoginState, IRootState> = {
     }
   },
   actions: {
+    /**账号密码登录 */
     async accountLoginAction({ commit }, payload: IAccount) {
       // 请求登录
       const loginResult = await accountLoginRequest(payload)
@@ -54,10 +55,10 @@ const loginMoudle: Module<ILoginState, IRootState> = {
       //跳到首页之前拿到主页菜单
       router.push('/main')
     },
-
-    phoneLoginAction({ commit }, payload: any) {
-      console.log(payload, 'phoneLoginAction执行了')
-    },
+    /**手机验证码登录 */
+    // phoneLoginAction({ commit }, payload: any) {
+    //   console.log(payload, 'phoneLoginAction执行了')
+    // },
 
     loadLocalLogin({ commit }) {
       const token = localCache.getCache('token')
