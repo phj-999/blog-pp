@@ -2,7 +2,7 @@ import { RouteRecordRaw } from 'vue-router'
 
 /**
  * @function 符合条件的菜单userMenus映射到路由数组routes里面
- * @returns {RouteRecordRaw[]} 返回一个routes的数组
+ * @return { RouteRecordRaw[] }  返回一个routes的数组
  * @todo 下一步添加到main的children里面
  * */
 export function mapMenusToRoutes(userMenus: any[]): RouteRecordRaw[] {

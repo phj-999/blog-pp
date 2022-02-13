@@ -7,7 +7,8 @@ enum LoginAPI {
   UserMenus = '/role/' // /role/1/menu
 }
 /**用户登录
- * @param {string} account
+ * @param {string} name
+ * @param {string} password
  */
 export function accountLoginRequest(account: IAccount) {
   return hyRequest.post<IDataType<ILoginResult>>({
