@@ -17,7 +17,17 @@ import {
   ElMenuItem,
   ElMenuItemGroup,
   ElSubmenu,
-  ElContainer
+  ElContainer,
+  ElAvatar,
+  ElDatePicker,
+  ElDropdown,
+  ElDropdownItem,
+  ElDropdownMenu,
+  ElHeader,
+  ElOption,
+  ElRow,
+  ElCol,
+  ElSelect
 } from 'element-plus'
 
 const components = [
@@ -37,7 +47,17 @@ const components = [
   ElMenuItem,
   ElMenuItemGroup,
   ElSubmenu,
-  ElContainer
+  ElContainer,
+  ElAvatar,
+  ElDatePicker,
+  ElDropdown,
+  ElDropdownItem,
+  ElDropdownMenu,
+  ElHeader,
+  ElOption,
+  ElRow,
+  ElCol,
+  ElSelect
 ]
 
 export default function (app: App): void {

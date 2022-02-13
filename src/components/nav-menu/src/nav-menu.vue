@@ -1,14 +1,15 @@
 <template>
   <div class="nav-menu">
-    <div class="log">
-      <img src="~@/assets/img/logo.svg" alt="logo" />
+    <div class="logo">
+      <img class="img" src="~@/assets/img/logo.svg" alt="logo" />
+      <span v-if="!collapse" class="title">Vue3+TS</span>
     </div>
     <el-menu
       default-active="2"
       class="el-menu-vertical"
       :collapse="collapse"
-      background-color="#0c2135"
-      text-color="#b7bdc3"
+      background-color="#218c74"
+      text-color="#ffffff"
       active-text-color="#0a60bd"
     >
       <template v-for="item in userMenus" :key="item.id">
@@ -77,7 +78,7 @@ export default defineComponent({
 <style scoped lang="less">
 .nav-menu {
   height: 100%;
-  background-color: #001529;
+  background-color: #218c74;
 
   .logo {
     display: flex;
@@ -114,7 +115,7 @@ export default defineComponent({
   }
 
   ::v-deep .el-submenu__title {
-    background-color: #001529 !important;
+    background-color: #218c74 !important;
   }
 
   // hover 高亮

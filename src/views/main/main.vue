@@ -9,7 +9,9 @@
           <nav-header @foldChange="handleFoldChange" />
         </el-header>
         <el-main class="page-content">
-          <router-view />
+          <div class="page-info">
+            <router-view></router-view>
+          </div>
         </el-main>
       </el-container>
     </el-container>
@@ -49,33 +51,40 @@ export default defineComponent({
 .main-content,
 .page {
   height: 100%;
+  background-color: brown;
 }
 
 .page-content {
-  height: calc(100% - 40px);
+  height: calc(100% - 48px);
+  .page-info {
+    background-color: #7bed9f;
+    border-radius: 5px;
+  }
 }
 
 .el-header,
 .el-footer {
+  background-color: #218c74;
   display: flex;
-  color: #333;
+  color: #ffffff;
   text-align: center;
   align-items: center;
 }
 
-.elheader {
+.el-header {
   height: 48px !important;
 }
 
-.el-side {
+.el-aside {
   overflow-x: hidden;
-  overflow-y: hidden;
-  line-height: 200;
+  overflow-y: auto;
+  line-height: 200px;
   text-align: left;
   cursor: pointer;
   background-color: #001529;
   transition: width 0.3s linear;
   scrollbar-width: none; /* firefox */
+  -ms-overflow-style: none; /* IE 10+ */
 
   &::-webkit-scrollbar {
     display: none;
@@ -85,6 +94,6 @@ export default defineComponent({
 .el-main {
   color: #333;
   text-align: center;
-  background-color: #f0f2f5;
+  background-color: #d1ccc0;
 }
 </style>

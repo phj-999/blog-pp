@@ -11,9 +11,9 @@ import { useRouter } from 'vue-router'
 
 export default defineComponent({
   setup() {
+    const router = useRouter()
     const handleBack = () => {
-      const router = useRouter()
-      router.back()
+      router.go(-1)
     }
     return {
       handleBack

@@ -1,6 +1,6 @@
 import axios from 'axios'
 import { ElLoading } from 'element-plus'
-import type { AxiosInstance, AxiosRequestConfig } from 'axios'
+import type { AxiosInstance } from 'axios'
 import { HYRequestInterceptors, HYRequestConfig } from './type'
 import { ILoadingInstance } from 'element-plus/lib/el-loading/src/loading.type'
 
