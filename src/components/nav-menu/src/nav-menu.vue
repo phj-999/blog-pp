@@ -62,9 +62,11 @@ export default defineComponent({
     // 拿到menu菜单栏
     const store = useStore()
     const router = useRouter()
+    //拿到当前路由对象path
     const route = useRoute()
     const currentPath = route.path
     const userMenus = computed(() => store.state.login.userMenus)
+    //根据路由去匹配菜单
     const menu = pathMapToMenu(userMenus.value, currentPath)
     const defaultValue = ref(menu.id + '')
     const handleMenuItemClick = (item: any) => {
