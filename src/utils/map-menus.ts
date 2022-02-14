@@ -5,6 +5,7 @@ import { RouteRecordRaw } from 'vue-router'
  * @return { RouteRecordRaw[] }  返回一个routes的数组
  * @todo 下一步添加到main的children里面
  * */
+let firstMenu: any = null
 export function mapMenusToRoutes(userMenus: any[]): RouteRecordRaw[] {
   const routes: RouteRecordRaw[] = []
   // 1'先去加载所有的默认routes
@@ -23,6 +24,9 @@ export function mapMenusToRoutes(userMenus: any[]): RouteRecordRaw[] {
           return route.path === menu.url
         })
         if (route) routes.push(route)
+        if (!firstMenu) {
+          firstMenu = menu
+        }
       } else {
         _recurseGetRoute(menu.children)
       }
@@ -31,3 +35,19 @@ export function mapMenusToRoutes(userMenus: any[]): RouteRecordRaw[] {
   _recurseGetRoute(userMenus)
   return routes
 }
+
+/**给定一个路径 匹配到对应的菜单*/
+export function pathMapToMenu(userMenus: any[], currentPath: string): any {
+  for (const menu of userMenus) {
+    if (menu.type === 1) {
+      const findMenu = pathMapToMenu(menu.children ?? [], currentPath)
+      if (findMenu) {
+        return findMenu
+      }
+    } else if (menu.type === 2 && menu.url === currentPath) {
+      return menu
+    }
+  }
+}
+
+export { firstMenu }
