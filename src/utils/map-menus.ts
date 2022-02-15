@@ -1,3 +1,4 @@
+import { IBreadcrumb } from '@/base-ui/breadcrumb'
 import { RouteRecordRaw } from 'vue-router'
 
 /**
@@ -36,12 +37,61 @@ export function mapMenusToRoutes(userMenus: any[]): RouteRecordRaw[] {
   return routes
 }
 
-/**给定一个路径 匹配到对应的菜单*/
-export function pathMapToMenu(userMenus: any[], currentPath: string): any {
+// /**给定一个路径 匹配到对应的菜单*/
+// export function pathMapToMenu(userMenus: any[], currentPath: string): any {
+//   for (const menu of userMenus) {
+//     if (menu.type === 1) {
+//       const findMenu = pathMapToMenu(menu.children ?? [], currentPath)
+//       if (findMenu) {
+//         return findMenu
+//       }
+//     } else if (menu.type === 2 && menu.url === currentPath) {
+//       return menu
+//     }
+//   }
+// }
+
+// /**面包屑数据*/
+// export function pathMapBreadcrumbs(userMenus: any[], currentPath: string) {
+//   const breadcrumbs: IBreadcrumb[] = []
+//   for (const menu of userMenus) {
+//     if (menu.type === 1) {
+//       const findMenu = pathMapToMenu(menu.children ?? [], currentPath)
+//       if (findMenu) {
+//         breadcrumbs.push({ name: menu.name, path: menu.url })
+//         breadcrumbs.push({ name: findMenu.name, path: findMenu.url })
+//         return findMenu
+//       }
+//     } else if (menu.type === 2 && menu.url === currentPath) {
+//       return menu
+//     }
+//   }
+//   return breadcrumbs
+// }
+
+//合一
+/**面包屑数据*/
+export function pathMapBreadcrumbs(userMenus: any[], currentPath: string) {
+  const breadcrumbs: IBreadcrumb[] = []
+  pathMapToMenu(userMenus, currentPath, breadcrumbs)
+  return breadcrumbs
+}
+
+/**
+ * 给定一个路径 匹配到对应的菜单
+ * /main/system/role  -> type === 2 对应menu
+ */
+export function pathMapToMenu(
+  userMenus: any[],
+  currentPath: string,
+  breadcrumbs?: IBreadcrumb[]
+): any {
   for (const menu of userMenus) {
     if (menu.type === 1) {
       const findMenu = pathMapToMenu(menu.children ?? [], currentPath)
       if (findMenu) {
+        breadcrumbs?.push({ name: menu.name })
+        breadcrumbs?.push({ name: findMenu.name })
         return findMenu
       }
     } else if (menu.type === 2 && menu.url === currentPath) {

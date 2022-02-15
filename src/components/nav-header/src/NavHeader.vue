@@ -6,18 +6,22 @@
       :class="isFold ? 'el-icon-s-fold' : 'el-icon-s-unfold'"
     ></i>
     <div class="content">
-      <div>面包屑</div>
+      <nav-bread-crumb :breadcrumbs="breadcrumbs" />
       <user-info />
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue'
+import NavBreadCrumb from '@/base-ui/breadcrumb'
+import { pathMapBreadcrumbs } from '@/utils/map-menus'
+import { computed, defineComponent, ref } from 'vue'
+import { useRoute } from 'vue-router'
+import { useStore } from 'vuex'
 import UserInfo from './UserInfo.vue'
 
 export default defineComponent({
-  components: { UserInfo },
+  components: { UserInfo, NavBreadCrumb },
   emits: ['foldChange'],
   setup(props, context) {
     const isFold = ref(false)
@@ -25,9 +29,19 @@ export default defineComponent({
       isFold.value = !isFold.value
       context.emit('foldChange', isFold.value)
     }
+    // 面包屑的数据: [{name: , path: }]
+    const store = useStore()
+    const breadcrumbs = computed(() => {
+      const userMenus = store.state.login.userMenus
+      const route = useRoute()
+      const currentPath = route.path
+      return pathMapBreadcrumbs(userMenus, currentPath)
+    })
+
     return {
       isFold,
-      handleFoldClick
+      handleFoldClick,
+      breadcrumbs
     }
   }
 })
