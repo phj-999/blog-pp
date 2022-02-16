@@ -13,7 +13,7 @@ const systemMoudule: Module<ISystemState, IRootState> = {
     }
   },
   mutations: {
-    changeUserLisst(state, userList: any[]) {
+    changeUserList(state, userList: any[]) {
       state.userList = userList
     },
     changeUserCount(state, userCount: number) {
