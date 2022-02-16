@@ -17,6 +17,7 @@
                   :placeholder="item.placeholder"
                   v-bind="item.otherOptions"
                   :show-password="item.type === 'password'"
+                  v-model="formData[`${item.field}`]"
                 />
               </template>
               <!-- over -->
@@ -26,6 +27,7 @@
                   :placeholder="item.placeholder"
                   v-bind="item.otherOptions"
                   style="width: 100%"
+                  v-model="formData[`${item.field}`]"
                 >
                   <el-option
                     v-for="option in item.options"
@@ -41,6 +43,7 @@
                 <el-date-picker
                   style="width: 100%"
                   v-bind="item.otherOptions"
+                  v-model="formData[`${item.field}`]"
                 ></el-date-picker>
               </template>
               <!-- over -->
@@ -53,7 +56,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType } from 'vue'
+import { defineComponent, PropType, ref, watch } from 'vue'
 import { IFormItem } from './types'
 
 export default defineComponent({
@@ -79,10 +82,29 @@ export default defineComponent({
         sm: 1,
         xs: 24
       })
+    },
+    modelValue: {
+      type: Object,
+      required: true
     }
   },
-  setup() {
-    return {}
+  emits: ['update: modelValue'],
+  setup(props, { emit }) {
+    const formData = ref({ ...props.modelValue })
+    watch(
+      formData, //深度监听,formData的数据变化
+      (newValue) => {
+        emit('update: modelValue', newValue)
+        console.log(newValue)
+      },
+      {
+        deep: true
+      }
+    )
+
+    return {
+      formData
+    }
   }
 })
 </script>
