@@ -1,0 +1,35 @@
+import { Module } from 'vuex'
+import { IRootState } from '../types'
+import { ISystemState } from './types'
+
+import { getPageListData } from '@/service/main/system/system'
+
+const systemMoudule: Module<ISystemState, IRootState> = {
+  namespaced: true,
+  state() {
+    return {
+      userList: [],
+      userCount: 0
+    }
+  },
+  mutations: {
+    changeUserLisst(state, userList: any[]) {
+      state.userList = userList
+    },
+    changeUserCount(state, userCount: number) {
+      state.userCount = userCount
+    }
+  },
+  actions: {
+    async getPageListAction({ commit }, payload: any) {
+      //发送网络请求
+      const pageResult = await getPageListData(
+        payload.pageUrl,
+        payload.queryInfo
+      )
+      const { list, totalCount } = pageResult.data
+    }
+  }
+}
+
+export default systemMoudule
