@@ -28,6 +28,8 @@ const systemMoudule: Module<ISystemState, IRootState> = {
         payload.queryInfo
       )
       const { list, totalCount } = pageResult.data
+      commit('changeUserList', list)
+      commit('changeUserCount', totalCount)
     }
   }
 }
