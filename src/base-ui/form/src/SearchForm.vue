@@ -113,4 +113,5 @@ export default defineComponent({
 .hy-form {
   padding-top: 22px;
 }
+// user定义ref形式的formData然后在SearchForm处v-model，在SearchForm组件就能接收一个modelValue的值，再次声明ref形式的formData，扩展拷贝传递来的mo'de'lmodelValue，然后watch监听这个formData，emit传递出去，深度监听,最后再在每个框框元素加上v-model="formData[`${item.field}`]"定义的字段
 </style>
