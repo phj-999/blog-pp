@@ -2,12 +2,12 @@ body {
   padding: 0;
   margin: 0;
 }
-
-html, body, #app {
+html,
+body,
+#app {
   width: 100%;
   height: 100%;
 }
-
 @font-face {
   font-family: '海豹总动员正体字';
   src: url('../fonts/hbzdyztz.ttf');

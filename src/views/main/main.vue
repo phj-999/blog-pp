@@ -57,7 +57,7 @@ export default defineComponent({
 .page-content {
   height: calc(100% - 48px);
   .page-info {
-    background-color: #7bed9f;
+    background-image: linear-gradient(120deg, #84fab0 0%, #8fd3f4 100%);
     border-radius: 5px;
   }
 }

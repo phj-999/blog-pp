@@ -1,30 +1,23 @@
 <template>
   <div class="user">
-    <search-form v-bind="searchFormConfig" v-model="formData" />
+    <page-search :searchFormConfig="searchFormConfig" />
     <div class="content"></div>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue'
-import SearchForm from '@/base-ui/form'
+import { defineComponent } from 'vue'
 import { searchFormConfig } from './config/search.config'
+import PageSearch from '@/components/page-search'
 
 export default defineComponent({
-  components: { SearchForm },
+  components: { PageSearch },
   setup() {
-    const formData = ref({
-      id: '',
-      name: '',
-      password: '',
-      createTime: ''
-    })
     return {
-      searchFormConfig,
-      formData
+      searchFormConfig
     }
   }
 })
 </script>
 
-<style scoped></style>
+<style scoped lang="less"></style>
