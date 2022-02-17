@@ -7,10 +7,18 @@
       <user-table :listData="userList" :propList="propList">
         <!-- 自带的插槽 -->
         <template #status="scope">
-          <el-button>{{ scope.row.enable ? '启用' : '禁用' }}</el-button>
+          <el-button
+            size="mini"
+            :type="scope.row.enable ? 'success' : 'danger'"
+          >
+            {{ scope.row.enable ? '启用' : '禁用' }}
+          </el-button>
         </template>
         <template #createAt="scope">
-          <strong>{{ scope.row.createAt }}</strong>
+          <strong>{{ $filters.formatTime(scope.row.createAt) }}</strong>
+        </template>
+        <template #update="scope">
+          <strong>{{ $filters.formatTime(scope.row.createAt) }}</strong>
         </template>
       </user-table>
     </div>
