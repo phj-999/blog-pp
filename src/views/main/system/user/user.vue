@@ -4,7 +4,12 @@
     <page-search :searchFormConfig="searchFormConfig" />
     <!-- list中数据 -->
     <div class="content">
-      <user-table :listData="userList" :propList="propList">
+      <user-table
+        :listData="userList"
+        :propList="propList"
+        :showIndexColumn="showIndexColumn"
+        :showSelectColumn="showSelectColumn"
+      >
         <!-- 自带的插槽 -->
         <template #status="scope">
           <el-button
@@ -19,6 +24,16 @@
         </template>
         <template #update="scope">
           <strong>{{ $filters.formatTime(scope.row.createAt) }}</strong>
+        </template>
+        <template #handler>
+          <div class="handle-btns">
+            <el-button icon="el-icon-edit" size="mini" type="text"
+              >编辑</el-button
+            >
+            <el-button icon="el-icon-delete" size="mini" type="text"
+              >删除</el-button
+            >
+          </div>
         </template>
       </user-table>
     </div>
@@ -64,13 +79,23 @@ export default defineComponent({
         label: '更新时间',
         minWidth: '250',
         slotName: 'updateAt'
+      },
+      {
+        label: '操作',
+        minWidth: '120',
+        slotName: 'handler'
       }
     ]
+
+    const showIndexColumn = true //前面的序号是否显示
+    const showSelectColumn = true //序号前面的框是否选中的框框
 
     return {
       searchFormConfig,
       userList,
-      propList
+      propList,
+      showIndexColumn,
+      showSelectColumn
     }
   }
 })
