@@ -45,21 +45,27 @@ export default defineComponent({
     contentTableConfig: {
       type: Object,
       require: true
+    },
+    pageName: {
+      type: String,
+      require: true
     }
   },
-  setup() {
+  setup(props) {
     const store = useStore()
     //调用发送网络请求
     store.dispatch('system/getPageListAction', {
-      pageUrl: '/users/list',
+      pageName: props.pageName,
       queryInfo: {
         offset: 0,
         size: 10
       }
     })
-    const userList = computed(() => store.state.system.userList)
+    const userList = computed(() =>
+      store.getters[`system/pageListData`](props.pageName)
+    )
     //数据总数
-    const userCount = computed(() => store.state.system.userCount)
+    //const userCount = computed(() => store.state.system.userCount)
 
     return {
       userList

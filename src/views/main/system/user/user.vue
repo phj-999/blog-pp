@@ -5,7 +5,7 @@
     <!-- list中数据 -->
     <page-content
       :contentTableConfig="contentTableConfig"
-      :pageName="user"
+      pageName="user"
     ></page-content>
   </div>
 </template>

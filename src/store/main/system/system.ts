@@ -15,10 +15,10 @@ const systemMoudule: Module<ISystemState, IRootState> = {
     }
   },
   mutations: {
-    changeUserList(state, userList: any[]) {
+    changeUsersList(state, userList: any[]) {
       state.usersList = userList
     },
-    changeUserCount(state, userCount: number) {
+    changeUsersCount(state, userCount: number) {
       state.usersCount = userCount
     },
     changeRoleList(state, list: any[]) {
@@ -50,11 +50,12 @@ const systemMoudule: Module<ISystemState, IRootState> = {
       //发送网络请求
       const pageResult = await getPageListData(pageUrl, payload.queryInfo)
 
-      const changePageName =pageName.slice(0, 1).toUpperCase() + pageName.slice(1)
+      const changePageName =
+        pageName.slice(0, 1).toUpperCase() + pageName.slice(1)
 
       const { list, totalCount } = pageResult.data
-      commit(`change${pageName.toUpperCase()}List`, list)
-      commit(`change${pageName.toUpperCase()}UserCount`, totalCount)
+      commit(`change${changePageName}List`, list)
+      commit(`change${changePageName}Count`, totalCount)
     }
   }
 }
