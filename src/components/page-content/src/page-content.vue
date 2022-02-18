@@ -36,7 +36,8 @@
 
 <script lang="ts">
 import UserTable from '@/base-ui/table'
-import { defineComponent } from 'vue'
+import { useStore } from '@/store'
+import { computed, defineComponent } from 'vue'
 
 export default defineComponent({
   components: { UserTable },
@@ -47,9 +48,29 @@ export default defineComponent({
     }
   },
   setup() {
-    return {}
+    const store = useStore()
+    //调用发送网络请求
+    store.dispatch('system/getPageListAction', {
+      pageUrl: '/users/list',
+      queryInfo: {
+        offset: 0,
+        size: 10
+      }
+    })
+    const userList = computed(() => store.state.system.userList)
+    //数据总数
+    const userCount = computed(() => store.state.system.userCount)
+
+    return {
+      userList
+    }
   }
 })
 </script>
 
-<style lang="less" scoped></style>
+<style lang="less" scoped>
+.page-content {
+  padding: 20px;
+  border-top: 20px solid #f5f5f5;
+}
+</style>
