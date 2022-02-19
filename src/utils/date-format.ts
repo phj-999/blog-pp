@@ -12,9 +12,9 @@ export function formatUtcString(
   return dayjs.utc(utcString).format(format)
 }
 //转换时间
-export function formatTimestamp(
-  timestamp: number,
-  format: string = DATE_TIME_FORMAT
-) {
-  return ''
-}
+// export function formatTimestamp(
+//   timestamp: number,
+//   format: string = DATE_TIME_FORMAT
+// ) {
+//   return ''
+// }

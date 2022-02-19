@@ -49,7 +49,10 @@ export default defineComponent({
     // 优化当用户点击重置
     const handleResetClick = () => {
       //就是把formData的值再变回原来的
-      formData.value = formOriginData
+      for (const key in formOriginData) {
+        formData.value[`${key}`] = formOriginData[key]
+        console.log(formOriginData[key])
+      }
     }
     return {
       formData,

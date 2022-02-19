@@ -19,7 +19,7 @@ export default defineComponent({
       type: String
     }
   },
-  setup(props) {
+  setup() {
     return { znCn }
   }
 })

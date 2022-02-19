@@ -62,7 +62,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, PropType, ref, watch } from 'vue'
+import { defineComponent, PropType, ref, watch } from 'vue'
 import { IFormItem } from './types'
 
 export default defineComponent({
