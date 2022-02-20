@@ -35,6 +35,16 @@
           </el-button>
         </div>
       </template>
+      <!-- 在page-content中动态插入剩余的插槽 -->
+      <template
+        v-for="item in otherPropSlots"
+        :key="item.prop"
+        #[item.slotName]="scope"
+      >
+        <template v-if="item.slotName">
+          <slot :name="item.slotName" :row="scope.row"></slot>
+        </template>
+      </template>
     </user-table>
   </div>
 </template>
@@ -61,6 +71,7 @@ export default defineComponent({
     //调用发送网络请求
     // 双向绑定pageInfo
     const pageInfo = ref({ currentPage: 0, pageSize: 10 })
+    // 监听pageInfo
     watch(pageInfo, () => {
       getPageData()
     })
@@ -84,11 +95,21 @@ export default defineComponent({
       store.getters[`system/pageListCount`](props.pageName)
     )
 
+    //获取其它动态插槽的名称
+    const otherPropSlots = props.contentTableConfig?.propList.fliter(
+      (item: any) => {
+        if (item.slotName === 'status') return false //false的会被过滤掉 true的会返回
+        if (item.slotName === 'createAt') return false
+        if (item.slotName === 'updateAt') return false
+        if (item.slotName === 'handler') return false
+      }
+    )
     return {
       userList,
       getPageData,
       dataCount,
-      pageInfo
+      pageInfo,
+      otherPropSlots
     }
   }
 })
