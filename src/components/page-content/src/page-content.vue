@@ -54,13 +54,17 @@ export default defineComponent({
   setup(props) {
     const store = useStore()
     //调用发送网络请求
-    store.dispatch('system/getPageListAction', {
-      pageName: props.pageName,
-      queryInfo: {
-        offset: 0,
-        size: 10
-      }
-    })
+    const getPageData = (queryInfo: any = {}) => {
+      store.dispatch('system/getPageListAction', {
+        pageName: props.pageName,
+        queryInfo: {
+          offset: 0,
+          size: 10,
+          ...queryInfo
+        }
+      })
+    }
+    getPageData()
     const userList = computed(() =>
       store.getters[`system/pageListData`](props.pageName)
     )
@@ -68,7 +72,8 @@ export default defineComponent({
     //const userCount = computed(() => store.state.system.userCount)
 
     return {
-      userList
+      userList,
+      getPageData
     }
   }
 })
