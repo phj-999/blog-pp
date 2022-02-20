@@ -1,6 +1,11 @@
 <template>
   <div class="page-content">
-    <user-table :listData="userList" v-bind="contentTableConfig">
+    <user-table
+      :listData="userList"
+      :listCount="dataCount"
+      v-bind="contentTableConfig"
+      v-model:page="pageInfo"
+    >
       <!-- heaedr中的插槽 -->
       <template #handerHandler>
         <el-button @click="handleNewUser" type="primary" size="medium"
@@ -37,7 +42,7 @@
 <script lang="ts">
 import UserTable from '@/base-ui/table'
 import { useStore } from '@/store'
-import { computed, defineComponent } from 'vue'
+import { computed, defineComponent, ref, watch } from 'vue'
 
 export default defineComponent({
   components: { UserTable },
@@ -54,26 +59,36 @@ export default defineComponent({
   setup(props) {
     const store = useStore()
     //调用发送网络请求
+    // 双向绑定pageInfo
+    const pageInfo = ref({ currentPage: 0, pageSize: 10 })
+    watch(pageInfo, () => {
+      getPageData()
+    })
     const getPageData = (queryInfo: any = {}) => {
       store.dispatch('system/getPageListAction', {
         pageName: props.pageName,
         queryInfo: {
-          offset: 0,
-          size: 10,
+          offset: pageInfo.value.currentPage * pageInfo.value.pageSize,
+          size: pageInfo.value.pageSize,
           ...queryInfo
         }
       })
     }
     getPageData()
+
     const userList = computed(() =>
       store.getters[`system/pageListData`](props.pageName)
     )
     //数据总数
-    //const userCount = computed(() => store.state.system.userCount)
+    const dataCount = computed(() =>
+      store.getters[`system/pageListCount`](props.pageName)
+    )
 
     return {
       userList,
-      getPageData
+      getPageData,
+      dataCount,
+      pageInfo
     }
   }
 })
