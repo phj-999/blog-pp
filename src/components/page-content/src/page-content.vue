@@ -29,7 +29,7 @@
       <template #update="scope">
         <strong>{{ $filters.formatTime(scope.row.createAt) }}</strong>
       </template>
-      <template #handler>
+      <template #handler="scope">
         <div class="handle-btns">
           <el-button v-if="isUpdate" icon="el-icon-edit" size="mini" type="text"
             >编辑</el-button
@@ -39,6 +39,7 @@
             icon="el-icon-delete"
             size="mini"
             type="text"
+            @click="handleDeleteClick(scope.row)"
             >删除
           </el-button>
         </div>
@@ -62,6 +63,7 @@ import UserTable from '@/base-ui/table'
 import { useStore } from '@/store'
 import { computed, defineComponent, ref, watch } from 'vue'
 import { usePermission } from '@/hooks/use-permission'
+import { Store } from 'vuex'
 
 export default defineComponent({
   components: { UserTable },
@@ -118,6 +120,15 @@ export default defineComponent({
         if (item.slotName === 'handler') return false
       }
     )
+
+    // 删除操作
+    const handleDeleteClick = (item: any) => {
+      store.dispatch('system/deletePageDataAction', {
+        pageName: props.pageName,
+        id: item.id
+      })
+    }
+
     return {
       userList,
       getPageData,
@@ -127,7 +138,8 @@ export default defineComponent({
       isCreate,
       isUpdate,
       isDelete,
-      isQuery
+      isQuery,
+      handleDeleteClick
     }
   }
 })
