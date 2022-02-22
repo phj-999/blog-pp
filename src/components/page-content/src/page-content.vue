@@ -8,7 +8,11 @@
     >
       <!-- heaedr中的插槽 -->
       <template #handerHandler>
-        <el-button @click="handleNewUser" type="primary" size="medium"
+        <el-button
+          v-if="isCreate"
+          @click="handleNewUser"
+          type="primary"
+          size="medium"
           >新建用户
         </el-button>
         <!-- <el-button icon="el-icon-refresh"></el-button> -->
@@ -27,10 +31,14 @@
       </template>
       <template #handler>
         <div class="handle-btns">
-          <el-button icon="el-icon-edit" size="mini" type="text"
+          <el-button v-if="isUpdate" icon="el-icon-edit" size="mini" type="text"
             >编辑</el-button
           >
-          <el-button icon="el-icon-delete" size="mini" type="text"
+          <el-button
+            v-if="isDelete"
+            icon="el-icon-delete"
+            size="mini"
+            type="text"
             >删除
           </el-button>
         </div>
@@ -53,6 +61,7 @@
 import UserTable from '@/base-ui/table'
 import { useStore } from '@/store'
 import { computed, defineComponent, ref, watch } from 'vue'
+import { usePermission } from '@/hooks/use-permission'
 
 export default defineComponent({
   components: { UserTable },
@@ -68,6 +77,11 @@ export default defineComponent({
   },
   setup(props) {
     const store = useStore()
+    // 获取操作权限
+    const isCreate = usePermission(props.pageName as string, 'create')
+    const isUpdate = usePermission(props.pageName as string, 'update')
+    const isDelete = usePermission(props.pageName as string, 'delete')
+    const isQuery = usePermission(props.pageName as string, 'query')
     //调用发送网络请求
     // 双向绑定pageInfo
     const pageInfo = ref({ currentPage: 0, pageSize: 10 })
@@ -109,7 +123,11 @@ export default defineComponent({
       getPageData,
       dataCount,
       pageInfo,
-      otherPropSlots
+      otherPropSlots,
+      isCreate,
+      isUpdate,
+      isDelete,
+      isQuery
     }
   }
 })
