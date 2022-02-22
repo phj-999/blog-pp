@@ -48,7 +48,7 @@
     </user-table>
   </div>
 </template>
-
+2:15:44
 <script lang="ts">
 import UserTable from '@/base-ui/table'
 import { useStore } from '@/store'
