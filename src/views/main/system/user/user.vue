@@ -38,8 +38,25 @@ export default defineComponent({
   components: { PageSearch, PageContent, PageModal },
   setup() {
     const [pageContentRef, handleQueryClick] = usePageSearch()
+    // 1.处理密码的逻辑
+    /**
+     * @todo 把函数处理逻辑传进hook里面 点击了直接调用
+     */
+    const newCallback = () => {
+      const passwordItem = modalConfig.formItems.find(
+        (item) => item.field === 'password'
+      )
+      passwordItem!.isHidden = false
+    }
+    const editCallback = () => {
+      const passwordItem = modalConfig.formItems.find(
+        (item) => item.field === 'password'
+      )
+      passwordItem!.isHidden = true
+    }
+
     const [pageModalRef, defaultInfo, handleNewData, handleEditData] =
-      usePageModal()
+      usePageModal(newCallback, editCallback)
 
     return {
       searchFormConfig,
