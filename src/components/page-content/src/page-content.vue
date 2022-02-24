@@ -10,7 +10,7 @@
       <template #handerHandler>
         <el-button
           v-if="isCreate"
-          @click="handleNewUser"
+          @click="handleNewClick"
           type="primary"
           size="medium"
           >新建用户
@@ -31,7 +31,12 @@
       </template>
       <template #handler="scope">
         <div class="handle-btns">
-          <el-button v-if="isUpdate" icon="el-icon-edit" size="mini" type="text"
+          <el-button
+            v-if="isUpdate"
+            icon="el-icon-edit"
+            size="mini"
+            type="text"
+            @click="handleEditClick(scope.row)"
             >编辑</el-button
           >
           <el-button
@@ -63,7 +68,6 @@ import UserTable from '@/base-ui/table'
 import { useStore } from '@/store'
 import { computed, defineComponent, ref, watch } from 'vue'
 import { usePermission } from '@/hooks/use-permission'
-import { Store } from 'vuex'
 
 export default defineComponent({
   components: { UserTable },
@@ -77,7 +81,8 @@ export default defineComponent({
       require: true
     }
   },
-  setup(props) {
+  emits: ['newBtnClick', 'editBtnClick'],
+  setup(props, context) {
     const store = useStore()
     // 获取操作权限
     const isCreate = usePermission(props.pageName as string, 'create')
@@ -128,6 +133,12 @@ export default defineComponent({
         id: item.id
       })
     }
+    const handleNewClick = () => {
+      context.emit('newBtnClick')
+    }
+    const handleEditClick = (item: any) => {
+      context.emit('editBtnClick', item)
+    }
 
     return {
       userList,
@@ -139,7 +150,9 @@ export default defineComponent({
       isUpdate,
       isDelete,
       isQuery,
-      handleDeleteClick
+      handleDeleteClick,
+      handleNewClick,
+      handleEditClick
     }
   }
 })
