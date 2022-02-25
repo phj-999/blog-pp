@@ -24,7 +24,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue'
+import { computed, defineComponent, ref } from 'vue'
 import { searchFormConfig } from './config/search.config'
 import PageSearch from '@/components/page-search'
 import PageContent from '@/components/page-content'
@@ -33,6 +33,7 @@ import { usePageSearch } from '@/hooks/use-page-search'
 import PageModal from '@/components/page-modal/src/page-modal.vue'
 import { modalConfig } from './config/modal.config'
 import { usePageModal } from '@/hooks/use-page-moadl'
+import { useStore } from '@/store'
 
 export default defineComponent({
   components: { PageSearch, PageContent, PageModal },
@@ -55,6 +56,25 @@ export default defineComponent({
       passwordItem!.isHidden = true
     }
 
+    const store = useStore()
+    const modalConfigRef = computed(() => {
+      //动态添加部门
+      const departmentItem = modalConfig.formItems.find(
+        (item) => item.field === 'departmentId'
+      )
+      departmentItem!.options = store.state.entireDepartment.map((item) => {
+        return { title: item.name, value: item.id }
+      })
+      // 动态添加角色列表
+      const roleItem = modalConfig.formItems.find(
+        (item) => item.field === 'roleId'
+      )
+      roleItem!.options = store.state.entireRole.map((item) => {
+        return { title: item.name, value: item.id }
+      })
+      return modalConfig
+    })
+    //冲hooks--usePageModal里面拿到处理新建喝修改的方法及信息
     const [pageModalRef, defaultInfo, handleNewData, handleEditData] =
       usePageModal(newCallback, editCallback)
 
@@ -67,7 +87,8 @@ export default defineComponent({
       pageModalRef,
       defaultInfo,
       handleNewData,
-      handleEditData
+      handleEditData,
+      modalConfigRef
     }
   }
 })
