@@ -2,8 +2,12 @@ import { Module } from 'vuex'
 import { IRootState } from '../../types'
 import { ISystemState } from './types'
 
-import { deletePageData, getPageListData } from '@/service/main/system/system'
-import list from '@/router/main/story/list/list'
+import {
+  createPageData,
+  deletePageData,
+  editPageData,
+  getPageListData
+} from '@/service/main/system/system'
 
 const systemMoudule: Module<ISystemState, IRootState> = {
   namespaced: true,
@@ -79,12 +83,36 @@ const systemMoudule: Module<ISystemState, IRootState> = {
       commit(`change${changePageName}List`, list)
       commit(`change${changePageName}Count`, totalCount)
     },
+    //删除逻辑
     async deletePageDataAction(context, payload: any) {
       const { pageName, id } = payload
       const pageUrl = `/${pageName}/${id}`
       await deletePageData(pageUrl)
       //重新发送请求
       context.dispatch('getPageListAction', {
+        pageName,
+        queryInfo: { offset: 0, size: 10 }
+      })
+    },
+    // 确定按钮的新建逻辑
+    async createPageDataAction({ dispatch }, payload: any) {
+      const { pageName, newData } = payload
+      const pageUrl = `/${pageName}`
+      //1. 创建数据请求
+      await createPageData(pageUrl, newData)
+      //2. 请求最新的数据
+      dispatch('getPageListAction', {
+        pageName,
+        queryInfo: { offset: 0, size: 10 }
+      })
+    },
+    // 确定按钮的编辑逻辑
+    async editPageDataAction({ dispatch }, payload: any) {
+      const { pageName, editData, id } = payload
+      const pageUrl = `/${pageName}/${id}`
+      await editPageData(pageUrl, editData)
+      //2. 请求最新的数据
+      dispatch('getPageListAction', {
         pageName,
         queryInfo: { offset: 0, size: 10 }
       })
