@@ -2,7 +2,7 @@ import { IForm } from '@/base-ui/form'
 // 搜索表单的内容配置
 export const searchFormConfig: IForm = {
   labelWidth: '120px',
-  itemLayout: {
+  itemStyle: {
     padding: '10px 40px'
   },
   colLayout: {

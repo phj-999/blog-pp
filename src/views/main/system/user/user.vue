@@ -24,7 +24,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, ref } from 'vue'
+import { computed, defineComponent } from 'vue'
 import { searchFormConfig } from './config/search.config'
 import PageSearch from '@/components/page-search'
 import PageContent from '@/components/page-content'

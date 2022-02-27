@@ -7,16 +7,15 @@
       center
       destroy-on-close
     >
-      <search-form v-bind="modalConfig" v-model="formData">
-        <template #footer>
-          <span class="dialog-footer">
-            <el-button @click="dialogVisible = false">取 消</el-button>
-            <el-button type="primary" @click="handleConfirmClick">
-              确 定
-            </el-button>
-          </span>
-        </template>
-      </search-form>
+      <search-form v-bind="modalConfig" v-model="formData" />
+      <template #footer>
+        <span class="dialog-footer">
+          <el-button @click="dialogVisible = false">取 消</el-button>
+          <el-button type="primary" @click="handleConfirmClick">
+            确 定
+          </el-button>
+        </span>
+      </template>
     </el-dialog>
   </div>
 </template>

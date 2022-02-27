@@ -19,15 +19,19 @@
       </template>
       <!-- 自带的插槽 -->
       <template #status="scope">
-        <el-button size="mini" :type="scope.row.enable ? 'success' : 'danger'">
+        <el-button
+          plain
+          size="mini"
+          :type="scope.row.enable ? 'success' : 'danger'"
+        >
           {{ scope.row.enable ? '启用' : '禁用' }}
         </el-button>
       </template>
       <template #createAt="scope">
-        <strong>{{ $filters.formatTime(scope.row.createAt) }}</strong>
+        <span>{{ $filters.formatTime(scope.row.createAt) }}</span>
       </template>
-      <template #update="scope">
-        <strong>{{ $filters.formatTime(scope.row.createAt) }}</strong>
+      <template #updateAt="scope">
+        <span>{{ $filters.formatTime(scope.row.updateAt) }}</span>
       </template>
       <template #handler="scope">
         <div class="handle-btns">
@@ -62,7 +66,7 @@
     </user-table>
   </div>
 </template>
-2:15:44
+
 <script lang="ts">
 import UserTable from '@/base-ui/table'
 import { useStore } from '@/store'
@@ -93,10 +97,10 @@ export default defineComponent({
     // 双向绑定pageInfo
     const pageInfo = ref({ currentPage: 1, pageSize: 10 })
     // 监听pageInfo
-    watch(pageInfo, () => {
-      getPageData()
-    })
+    watch(pageInfo, () => getPageData())
+    // 发送网络请求
     const getPageData = (queryInfo: any = {}) => {
+      if (!isQuery) return
       store.dispatch('system/getPageListAction', {
         pageName: props.pageName,
         queryInfo: {
@@ -117,12 +121,13 @@ export default defineComponent({
     )
 
     //获取其它动态插槽的名称
-    const otherPropSlots = props.contentTableConfig?.propList.fliter(
+    const otherPropSlots = props.contentTableConfig?.propList.filter(
       (item: any) => {
         if (item.slotName === 'status') return false //false的会被过滤掉 true的会返回
         if (item.slotName === 'createAt') return false
         if (item.slotName === 'updateAt') return false
         if (item.slotName === 'handler') return false
+        return true
       }
     )
 

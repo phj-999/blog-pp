@@ -26,6 +26,5 @@ export const searchFormConfig: IForm = {
       }
     }
   ],
-  colLayout: undefined,
-  itemLayout: undefined
+  colLayout: undefined
 }
