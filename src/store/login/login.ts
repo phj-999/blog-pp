@@ -44,12 +44,15 @@ const loginMoudle: Module<ILoginState, IRootState> = {
   },
   actions: {
     /**账号密码登录 */
-    async accountLoginAction({ commit }, payload: IAccount) {
+    async accountLoginAction({ commit, dispatch }, payload: IAccount) {
       // 请求登录
       const loginResult = await accountLoginRequest(payload)
       console.log(loginResult, 'accountLoginAction执行了')
       const { id, token } = loginResult.data
       localCache.setCache('token', token)
+      // 发送初始请求 完整的role和department
+      // 模块里面调用跟里面的action  需要这么写
+      dispatch('getInitialDataAction', null, { root: true })
       //拿到token
       commit('changeToken', token)
       // 请求用户信息
@@ -71,10 +74,13 @@ const loginMoudle: Module<ILoginState, IRootState> = {
     //   console.log(payload, 'phoneLoginAction执行了')
     // },
 
-    loadLocalLogin({ commit }) {
+    loadLocalLogin({ commit, dispatch }) {
       const token = localCache.getCache('token')
       if (token) {
         commit('changeToken', token)
+        // 发送初始请求 完整的role和department
+        // 模块里面调用跟里面的action  需要这么写
+        dispatch('getInitialDataAction', null, { root: true })
       }
       const userInfo = localCache.getCache('userInfo')
       if (userInfo) {
