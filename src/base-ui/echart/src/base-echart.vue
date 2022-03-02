@@ -6,9 +6,8 @@
 
 <script lang="ts" setup>
 import { onMounted, ref, defineProps, withDefaults } from 'vue'
-import * as echarts from 'echarts'
 import { EChartsOption } from 'echarts'
-
+import { useEchart } from '@/hooks/use-echart'
 const echartDivRef = ref<HTMLElement>()
 // 定义props
 // defineProps<{
@@ -26,8 +25,8 @@ const props = withDefaults(
 )
 //此时用onMounted挂载上去
 onMounted(() => {
-  const echartInstance = echarts.init(echartDivRef.value!) // 此时未挂载 需要在onMounted里面
-  echartInstance.setOption(props.options)
+  const { setOptions } = useEchart(echartDivRef.value!)
+  setOptions(props.options)
 })
 </script>
 
