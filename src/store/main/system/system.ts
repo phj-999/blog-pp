@@ -75,11 +75,10 @@ const systemMoudule: Module<ISystemState, IRootState> = {
 
       //发送网络请求
       const pageResult = await getPageListData(pageUrl, payload.queryInfo)
-
+      const { list, totalCount } = pageResult.data
       const changePageName =
         pageName.slice(0, 1).toUpperCase() + pageName.slice(1)
 
-      const { list, totalCount } = pageResult.data
       commit(`change${changePageName}List`, list)
       commit(`change${changePageName}Count`, totalCount)
     },

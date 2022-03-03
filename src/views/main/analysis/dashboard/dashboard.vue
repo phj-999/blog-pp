@@ -2,7 +2,9 @@
   <div class="dashboard">
     <el-row :gutter="10">
       <el-col :span="7">
-        <card title="分类商品数量（饼图）"></card>
+        <card title="分类商品数量（饼图）">
+          <pie-echart :pieData="categoryGoodsCount" />
+        </card>
       </el-col>
       <el-col :span="10">
         <card title="不同城市商品数量"></card>
@@ -25,16 +27,24 @@
 
 <script lang="ts">
 import card from '@/base-ui/card/src/card.vue'
-import { defineComponent } from 'vue'
-import { useStore } from 'vuex'
+import { PieEchart } from '@/components/page-echarts'
+import { computed, defineComponent } from 'vue'
+import { useStore } from '@/store'
 
 export default defineComponent({
-  components: { card },
+  components: { card, PieEchart },
   name: 'dashboard',
   setup() {
     const store = useStore()
     store.dispatch('dashboard/getDashboardDataAction')
-    return {}
+
+    //用computd保持实时更新
+    const categoryGoodsCount = computed(() => {
+      return store.state.dashboard.categoryGoodsCount.map((item: any) => {
+        return { name: item.name, value: item.goodsCount }
+      })
+    })
+    return { categoryGoodsCount }
   }
 })
 </script>
