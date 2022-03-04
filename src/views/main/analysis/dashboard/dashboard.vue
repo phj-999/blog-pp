@@ -23,7 +23,9 @@
         </card>
       </el-col>
       <el-col :span="12">
-        <card title="分类商品的收藏"> </card>
+        <card title="分类商品的收藏">
+          <bar-echart v-bind="categoryGoodsFavor" />
+        </card>
       </el-col>
     </el-row>
   </div>
@@ -31,12 +33,17 @@
 
 <script lang="ts">
 import card from '@/base-ui/card/src/card.vue'
-import { LineEchart, PieEchart, RoseEchart } from '@/components/page-echarts'
+import {
+  LineEchart,
+  PieEchart,
+  RoseEchart,
+  BarEchart
+} from '@/components/page-echarts'
 import { computed, defineComponent } from 'vue'
 import { useStore } from '@/store'
 
 export default defineComponent({
-  components: { card, PieEchart, RoseEchart, LineEchart },
+  components: { card, PieEchart, RoseEchart, LineEchart, BarEchart },
   name: 'dashboard',
   setup() {
     const store = useStore()
@@ -64,7 +71,20 @@ export default defineComponent({
         values
       }
     })
-    return { categoryGoodsCount, categoryGoodsSale }
+    // 分类商品的收藏
+    const categoryGoodsFavor = computed(() => {
+      const xLabels: string[] = []
+      const values: any[] = []
+
+      const categoryGoodsFavor = store.state.dashboard.categoryGoodsFavor
+      for (const item of categoryGoodsFavor) {
+        xLabels.push(item.name)
+        values.push(item.goodsFavor)
+      }
+      return { xLabels, values }
+    })
+
+    return { categoryGoodsCount, categoryGoodsSale, categoryGoodsFavor }
   }
 })
 </script>
