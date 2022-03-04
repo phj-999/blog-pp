@@ -10,7 +10,9 @@
         <card title="不同城市商品数量"></card>
       </el-col>
       <el-col :span="7">
-        <card title="分类商品数量（玫瑰图）"></card>
+        <card title="分类商品数量（玫瑰图）">
+          <rose-echart :roseData="categoryGoodsCount" />
+        </card>
       </el-col>
     </el-row>
 
@@ -27,12 +29,12 @@
 
 <script lang="ts">
 import card from '@/base-ui/card/src/card.vue'
-import { PieEchart } from '@/components/page-echarts'
+import { PieEchart, RoseEchart } from '@/components/page-echarts'
 import { computed, defineComponent } from 'vue'
 import { useStore } from '@/store'
 
 export default defineComponent({
-  components: { card, PieEchart },
+  components: { card, PieEchart, RoseEchart },
   name: 'dashboard',
   setup() {
     const store = useStore()
