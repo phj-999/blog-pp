@@ -1,5 +1,9 @@
 import * as echarts from 'echarts'
 
+import ChinaMapData from '@/base-ui/echart/data/china.json'
+
+echarts.registerMap('china', ChinaMapData) //中国地图注册
+
 export function useEchart(el: HTMLElement) {
   const echartInstance = echarts.init(el)
   const setOptions = (options: echarts.EChartsOption) => {

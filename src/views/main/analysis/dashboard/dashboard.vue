@@ -7,7 +7,9 @@
         </card>
       </el-col>
       <el-col :span="10">
-        <card title="不同城市商品数量"></card>
+        <card title="不同城市商品数量">
+          <map-echart :mapData="addressGoodsSale" />
+        </card>
       </el-col>
       <el-col :span="7">
         <card title="分类商品数量（玫瑰图）">
@@ -37,13 +39,14 @@ import {
   LineEchart,
   PieEchart,
   RoseEchart,
-  BarEchart
+  BarEchart,
+  MapEchart
 } from '@/components/page-echarts'
 import { computed, defineComponent } from 'vue'
 import { useStore } from '@/store'
 
 export default defineComponent({
-  components: { card, PieEchart, RoseEchart, LineEchart, BarEchart },
+  components: { card, PieEchart, RoseEchart, LineEchart, BarEchart, MapEchart },
   name: 'dashboard',
   setup() {
     const store = useStore()
@@ -84,7 +87,19 @@ export default defineComponent({
       return { xLabels, values }
     })
 
-    return { categoryGoodsCount, categoryGoodsSale, categoryGoodsFavor }
+    // 不同城市商品数量
+    const addressGoodsSale = computed(() => {
+      return store.state.dashboard.addressGoodsSale.map((item: any) => {
+        return { name: item.address, value: item.count }
+      })
+    })
+
+    return {
+      categoryGoodsCount,
+      categoryGoodsSale,
+      categoryGoodsFavor,
+      addressGoodsSale
+    }
   }
 })
 </script>
