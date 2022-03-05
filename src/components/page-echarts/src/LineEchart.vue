@@ -1,9 +1,12 @@
 <template>
-  <div class="line-echart"></div>
+  <div class="line-echart">
+    <base-echart :options="options" />
+  </div>
 </template>
 
 <script setup lang="ts">
 import { computed, withDefaults, defineProps } from 'vue'
+import BaseEchart from '@/base-ui/echart'
 
 const props = withDefaults(
   defineProps<{
