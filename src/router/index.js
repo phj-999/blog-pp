@@ -2,7 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 
 const routes = [
   {
-    path: '/',
+    path: '/home',
     name: 'Home',
     component: () => import('@/views/Home.vue')
   },
@@ -10,6 +10,10 @@ const routes = [
     path: '/homepage',
     name: 'HomePage',
     component: () => import('@/views/HomePage.vue')
+  },
+  {
+    path: '/',
+    redirect: '/homepage'
   }
 ]
 
