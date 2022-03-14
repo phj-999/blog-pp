@@ -1,5 +1,7 @@
 <template>
-  <div id="mychart" ref="mychart"></div>
+  <header>
+    <h1>大数据可视化</h1>
+  </header>
 </template>
 
 <script setup>
@@ -14,10 +16,16 @@ onMounted(() => {
 })
 </script>
 
-<style scoped>
-#mychart {
-  width: 500px;
-  height: 500px;
-  border: 1px solid red;
+<style lang="less" scoped>
+header {
+  height: 1rem;
+  width: 100%;
+  background-color: rgba(0, 0, 255, 0.2);
+  h1 {
+    font-size: 0.375rem;
+    color: #fff;
+    text-align: center;
+    line-height: 1rem;
+  }
 }
 </style>
