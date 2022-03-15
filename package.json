@@ -11,10 +11,13 @@
     "commit": "cz"
   },
   "dependencies": {
+    "axios": "^0.26.1",
     "core-js": "^3.6.5",
     "echarts": "^5.3.1",
+    "element-plus": "^2.1.2",
     "lib-flexible": "^0.3.2",
     "normalize.css": "^8.0.1",
+    "qs": "^6.10.3",
     "vue": "^3.0.0",
     "vue-router": "^4.0.0-0",
     "vuex": "^4.0.0-0"
@@ -37,7 +40,9 @@
     "less": "^3.0.4",
     "less-loader": "^5.0.0",
     "lint-staged": "^12.3.5",
-    "prettier": "^2.5.1"
+    "prettier": "^2.5.1",
+    "unplugin-auto-import": "^0.6.4",
+    "unplugin-vue-components": "^0.18.0"
   },
   "lint-staged": {
     "**/*": "prettier --write --ignore-unknown"

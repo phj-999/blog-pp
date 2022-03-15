@@ -6,5 +6,6 @@ import store from './store'
 import '@/utils/flexible.js'
 import 'normalize.css'
 import '@/assets/css/base.less'
+import { globalRegister } from '@/utils/registerglobal'
 
-createApp(App).use(store).use(router).mount('#app')
+createApp(App).use(globalRegister).use(store).use(router).mount('#app')
