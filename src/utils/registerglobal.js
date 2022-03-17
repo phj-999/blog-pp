@@ -1,5 +1,5 @@
-import { registerElement } from './global/register-element'
+import registerElement from './global/register-element'
 
 export function globalRegister(app) {
-  app.use(registerElement())
+  app.use(registerElement)
 }

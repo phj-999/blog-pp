@@ -31,8 +31,8 @@
 </template>
 
 <script setup>
-import * as echarts from 'echarts'
-import { ref, onMounted } from 'vue'
+// import * as echarts from 'echarts'
+// import { ref, onMounted } from 'vue'
 import {
   gradientStackedChart,
   horizontalBarChart,
@@ -41,13 +41,22 @@ import {
   stackedColumnChart,
   itemPage
 } from '@/components/echarts-page'
+import { requestHorizontalbar } from '@/service/echarts/index'
 
-const mychart = ref()
-onMounted(() => {
-  let myEcharts = echarts.init(mychart.value)
-  // 配置项
-  myEcharts.setOption()
-})
+// const mychart = ref()
+// onMounted(() => {
+//   let myEcharts = echarts.init(mychart.value)
+//   // 配置项
+//   myEcharts.setOption()
+// })
+const hordata = requestHorizontalbar()
+  .then((res) => {
+    console.log(res, res)
+  })
+  .catch((error) => {
+    console.log(error, error)
+  })
+console.log(hordata, 'djsahdajshduasasaaagdjas')
 </script>
 
 <style lang="less" scoped>
@@ -65,7 +74,8 @@ header {
 .container {
   // 最大最小的宽度
   min-width: 1200px;
-  max-width: 2048px;
+  max-width: 100vw;
+  height: 100vh;
   margin: 0 auto;
   padding: 0.125rem 0.125rem 0;
   // background-color: gray;

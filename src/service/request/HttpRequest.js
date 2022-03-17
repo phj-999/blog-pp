@@ -34,20 +34,6 @@ class HttpRequest {
     return axiosInstance(newOptions)
   }
   /**
-   * 合并配置
-   *
-   * @param {Object} source 原配置项
-   * @param {Object} target 目标配置项
-   * @return {Object} 返回新配置
-   * @memberof HttpRequest
-   */
-  mergeOptions(source, target) {
-    if (typeof target !== 'object' || target == null) {
-      return source
-    }
-    return Object.assign(source, target)
-  }
-  /**
    * 拦截器
    *
    * @param {Axios} instance
@@ -103,17 +89,6 @@ class HttpRequest {
       }
     )
   }
-
-  // 方法
-  get(url, params = {}, config = {}) {
-    return this.request({
-      method: 'get',
-      url,
-      params,
-      ...config
-    })
-  }
-
   request(options) {
     const loading = ref(true)
     const res = ref(null)
@@ -134,6 +109,15 @@ class HttpRequest {
       errMsg
     }
   }
+  // 方法
+  get(url, params = {}, config = {}) {
+    return this.request({
+      method: 'get',
+      url,
+      params,
+      ...config
+    })
+  }
 }
 
-export default HttpRequest
+export default new HttpRequest()
