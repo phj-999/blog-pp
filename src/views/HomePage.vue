@@ -7,7 +7,7 @@
       <!-- 左容器 -->
       <section class="itemLeft">
         <item-page>
-          <horizontal-bar-chart />
+          <horizontal-bar-chart v-bind="hordata" />
         </item-page>
         <item-page>
           <gradient-stacked-chart />
@@ -31,6 +31,9 @@
 </template>
 
 <script setup>
+import { computed } from 'vue'
+import { useStore } from 'vuex'
+//import { requestHorizontalbar } from '@/service/echarts'
 // import * as echarts from 'echarts'
 // import { ref, onMounted } from 'vue'
 import {
@@ -41,22 +44,34 @@ import {
   stackedColumnChart,
   itemPage
 } from '@/components/echarts-page'
-import { requestHorizontalbar } from '@/service/echarts/index'
 
+const store = useStore()
+store.dispatch('echartModule/getEchartsListAction')
+const hordata = computed(() => {
+  const xLabels = []
+  const values = []
+  const horbarData = store.state.echartModule.horizontalbar
+
+  console.log(horbarData, 'horbarData111')
+  for (const item of horbarData) {
+    xLabels.push(item.title)
+    values.push(item.num)
+    console.log(xLabels, 'xLabels')
+  }
+  return {
+    xLabels,
+    values
+  }
+})
+// const hordata = requestHorizontalbar()
+// console.log(hordata, 'asdasdsdasd')
 // const mychart = ref()
 // onMounted(() => {
 //   let myEcharts = echarts.init(mychart.value)
 //   // 配置项
 //   myEcharts.setOption()
 // })
-const hordata = requestHorizontalbar()
-  .then((res) => {
-    console.log(res, res)
-  })
-  .catch((error) => {
-    console.log(error, error)
-  })
-console.log(hordata, 'djsahdajshduasasaaagdjas')
+console.log(hordata.value.xLabels)
 </script>
 
 <style lang="less" scoped>

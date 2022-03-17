@@ -1,6 +1,6 @@
 <template>
   <div class="base-echart">
-    <div ref="echartDivRef" />
+    <div />
   </div>
 </template>
 

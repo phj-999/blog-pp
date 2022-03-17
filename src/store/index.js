@@ -1,9 +1,10 @@
 import { createStore } from 'vuex'
 
+import displayEchartsModules from './modules/displayEcharts'
+
 export default createStore({
-  state: {},
-  mutations: {},
-  actions: {},
   //模块
-  modules: {}
+  modules: {
+    echartModule: displayEchartsModules
+  }
 })
