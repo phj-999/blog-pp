@@ -13,7 +13,6 @@ const props = defineProps({
     type: Object
   }
 })
-
 const echartDivRef = ref()
 onMounted(() => {
   const { setOptions } = useEchats(echartDivRef.value)
