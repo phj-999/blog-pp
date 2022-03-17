@@ -50,8 +50,9 @@ store.dispatch('echartModule/getEchartsListAction')
 const hordata = computed(() => {
   const xLabels = []
   const values = []
-  const horbarData = store.state.echartModule.horizontalbar
-
+  const horbarData = JSON.parse(
+    JSON.stringify(store.state.echartModule.horizontalbar)
+  )
   console.log(horbarData, 'horbarData111')
   for (const item of horbarData) {
     xLabels.push(item.title)
