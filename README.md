@@ -1,29 +1,10 @@
-# chart
+```javascript
+let BASE_URL = 'http://localhost:3000'
 
-## Project setup
-
-```
-yarn install
-```
-
-### Compiles and hot-reloads for development
-
-```
-yarn serve
+oneData:   'BASE_URL/api/echartsapi/onedata'
+twoData:   'BASE_URL/api/echartsapi/twodata'
+threeData:   'BASE_URL/api/echartsapi/threedata'
+fourData:   'BASE_URL/api/echartsapi/fourdata'
+mapData:   'BASE_URL/api/echartsapi/mapdata'
 ```
 
-### Compiles and minifies for production
-
-```
-yarn build
-```
-
-### Lints and fixes files
-
-```
-yarn lint
-```
-
-### Customize configuration
-
-See [Configuration Reference](https://cli.vuejs.org/config/).
