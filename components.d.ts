@@ -5,10 +5,22 @@
 declare module 'vue' {
   export interface GlobalComponents {
     BaseEchart: typeof import('./src/components/echarts-page/baseui/baseEchart.vue')['default']
+    ElAside: typeof import('element-plus/es')['ElAside']
+    ElContainer: typeof import('element-plus/es')['ElContainer']
+    ElHeader: typeof import('element-plus/es')['ElHeader']
+    ElIcon: typeof import('element-plus/es')['ElIcon']
+    ElMain: typeof import('element-plus/es')['ElMain']
+    ElMenu: typeof import('element-plus/es')['ElMenu']
+    ElMenuItem: typeof import('element-plus/es')['ElMenuItem']
+    ElMenuItemGroup: typeof import('element-plus/es')['ElMenuItemGroup']
+    ElPageHeader: typeof import('element-plus/es')['ElPageHeader']
+    ElSubMenu: typeof import('element-plus/es')['ElSubMenu']
     GradientStackedChart: typeof import('./src/components/echarts-page/src/gradientStackedChart.vue')['default']
     HorizontalBarChart: typeof import('./src/components/echarts-page/src/horizontalBarChart.vue')['default']
     ItemPage: typeof import('./src/components/echarts-page/baseui/itemPage.vue')['default']
     MapChart: typeof import('./src/components/echarts-page/src/mapChart.vue')['default']
+    NavHeader: typeof import('./src/components/layui/NavHeader.vue')['default']
+    NavMenu: typeof import('./src/components/layui/NavMenu.vue')['default']
     RoseChart: typeof import('./src/components/echarts-page/src/roseChart.vue')['default']
     StackedColumnChart: typeof import('./src/components/echarts-page/src/stackedColumnChart.vue')['default']
   }

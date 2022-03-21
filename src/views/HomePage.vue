@@ -7,7 +7,7 @@
       <!-- 左容器 -->
       <section class="itemLeft">
         <item-page>
-          <horizontal-bar-chart v-bind="hordata" />
+          <horizontal-bar-chart :horBardata="hordata" />
         </item-page>
         <item-page>
           <gradient-stacked-chart />
@@ -31,7 +31,7 @@
 </template>
 
 <script setup>
-import { computed } from 'vue'
+import { computed, reactive } from 'vue'
 import { useStore } from 'vuex'
 //import { requestHorizontalbar } from '@/service/echarts'
 // import * as echarts from 'echarts'
@@ -48,20 +48,22 @@ import {
 const store = useStore()
 store.dispatch('echartModule/getEchartsListAction')
 const hordata = computed(() => {
-  const xLabels = []
-  const values = []
   const horbarData = JSON.parse(
     JSON.stringify(store.state.echartModule.horizontalbar)
   )
+  const xdatas = reactive([])
+  const ydatas = reactive([])
   console.log(horbarData, 'horbarData111')
   for (const item of horbarData) {
-    xLabels.push(item.title)
-    values.push(item.num)
-    console.log(xLabels, 'xLabels')
+    xdatas.push(item.title)
+    ydatas.push(item.num)
+    console.log(xdatas, 'xdatas')
+    console.log(ydatas, 'ydatas')
   }
   return {
-    xLabels,
-    values
+    xdatas,
+    ydatas,
+    horbarData
   }
 })
 // const hordata = requestHorizontalbar()
@@ -72,7 +74,7 @@ const hordata = computed(() => {
 //   // 配置项
 //   myEcharts.setOption()
 // })
-console.log(hordata.value.xLabels)
+console.log(hordata.value.xdatas)
 </script>
 
 <style lang="less" scoped>

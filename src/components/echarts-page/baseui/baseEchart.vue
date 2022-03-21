@@ -1,6 +1,6 @@
 <template>
   <div class="base-echart">
-    <div ref="echartDivRef" />
+    <div ref="echartDivRef"></div>
   </div>
 </template>
 
@@ -10,12 +10,13 @@ import { ref, onMounted, watchEffect, defineProps } from 'vue'
 
 const props = defineProps({
   options: {
-    type: Object
+    type: Object,
+    default: () => {}
   }
 })
 const echartDivRef = ref()
 onMounted(() => {
-  const { setOptions } = useEchats(echartDivRef.value)
+  const { setOptions } = useEchats(echartDivRef?.value)
   watchEffect(() => {
     setOptions(props.options)
   })

@@ -6,22 +6,23 @@
 </template>
 
 <script setup>
-import useEchats from '@/hooks/useEchart'
 import { defineProps, computed } from 'vue'
+import * as echarts from 'echarts'
 import baseEchart from '../baseui/baseEchart.vue'
 
 const props = defineProps({
   //type: Array
-  xLabels: {
-    type: Array
-  },
-  values: {
-    type: Array
+  horBardata: {
+    type: Object
+    // xdatas,
+    // ydatas,
+    // horbarData
   }
 })
-console.log(props.xLabels, props.values, 'props')
+console.log(props)
+// const { xLabels, values } = JSON.parse(JSON.stringify(props.hordata))
+console.log(props.horBardata, 'props')
 // options参数配置
-const { echarts } = useEchats()
 const options = computed(() => {
   return {
     grid: {
@@ -41,7 +42,7 @@ const options = computed(() => {
     },
     yAxis: {
       type: 'category',
-      data: props.xLabels,
+      data: props.horBardata.xdatas,
       axisLine: {
         lineStyle: {
           color: '#fff'
@@ -50,7 +51,7 @@ const options = computed(() => {
     },
     series: [
       {
-        data: props.values,
+        data: props.horBardata.ydatas,
         type: 'bar',
         itemStyle: {
           normal: {
