@@ -10,8 +10,6 @@
       class="el-menu-vertical-demo"
       default-active="2"
       text-color="#fff"
-      @open="handleOpen"
-      @close="handleClose"
     >
       <el-sub-menu index="1">
         <template #title>
@@ -35,11 +33,14 @@
 </template>
 
 <script>
-import { defineComponent } from '@vue/composition-api'
+import { defineComponent } from 'vue'
 import { Location } from '@element-plus/icons-vue'
 
 export default defineComponent({
   components: { Location },
+  props: {
+    collapse: Boolean
+  },
   setup() {}
 })
 </script>
