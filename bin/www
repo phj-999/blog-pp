@@ -7,7 +7,8 @@
 var app = require('../app');
 var debug = require('debug')('c-serve:server');
 var http = require('http');
-
+const mongoose = require("mongoose");
+const config = require("../config/config");
 /**
  * Get port from environment and store in Express.
  */
@@ -25,9 +26,29 @@ var server = http.createServer(app);
  * Listen on provided port, on all network interfaces.
  */
 
-server.listen(port);
+server.listen(port,()=>{ //启动服务,监听端口
+  console.log(`Server is Running on http://localhost:${port}`)
+});
 server.on('error', onError);
 server.on('listening', onListening);
+
+
+mongoose
+  .connect(
+    config.dbUrl,
+    {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    }
+  )
+  .then(() => {
+    console.log(`MongoDB connected!`);
+  })
+  .catch((err) => {
+    console.log(`MongoDB connected Failed: \n ${err}`);
+  });
+module.exports = mongoose;
+
 
 /**
  * Normalize a port into a number, string, or false.
