@@ -3,7 +3,9 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node ./bin/www"
+    "start": "node ./bin/www",
+    "prepare": "husky install",
+    "prettier": "prettier --write ."
   },
   "dependencies": {
     "cookie-parser": "~1.4.4",
@@ -12,10 +14,24 @@
     "express": "~4.16.1",
     "http-errors": "~1.6.3",
     "jade": "~1.11.0",
+    "jsonwebtoken": "^8.5.1",
     "mongoose": "^6.2.8",
     "morgan": "~1.9.1"
   },
   "devDependencies": {
-    "nodemon": "^2.0.15"
-  }
+    "cz-conventional-changelog": "^3.3.0",
+    "eslint": "^8.12.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-prettier": "^4.0.0",
+    "husky": "^7.0.0",
+    "lint-staged": "^12.3.7",
+    "nodemon": "^2.0.15",
+    "prettier": "^2.6.1",
+    "pretty-quick": "^3.1.3"
+  },
+  "lint-staged": {
+    "*.{js,css,md}": "prettier --write"
+  },
+  "eslint": "eslint -c ./js-eslint.json src --ext .js",
+  "eslint-fix": "eslint --fix src --cache --color"
 }
