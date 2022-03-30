@@ -1,5 +1,4 @@
 const express = require('express') //引入express
-const router = express.Router() // 使用express Router
 const usersModle = require('../../models/users/users') // 引入User模型
 
 class usersController {
@@ -19,6 +18,22 @@ class usersController {
     }
   }
   // 用户登录
+  async Login(req, res) {
+    try {
+      const user = req.user
+      console.log(res.token, 'token')
+      console.log(user, 'user')
+      res.status(200).json({
+        msg: '登陆成功',
+        userdata: {
+          user: { id: user._id, username: user.account },
+          token: res.token
+        }
+      })
+    } catch (error) {
+      next(error)
+    }
+  }
 }
 
 module.exports = new usersController()
