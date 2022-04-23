@@ -1,23 +1,49 @@
 <template>
   <div class="login-account">
-    <el-form label-width="60px" :rules="rules" :model="account">
+    <el-form label-width="60px" :rules="rules" :model="account" ref="formRef">
       <el-form-item label="账号">
-        <el-input class="input" />
+        <el-input class="input" v-model="account.name" />
       </el-form-item>
       <el-form-item label="密码">
-        <el-input show-password />
+        <el-input show-password v-model="account.password" />
       </el-form-item>
     </el-form>
   </div>
 </template>
 
-<script>
-import { defineComponent } from 'vue'
+<script lang="ts">
+import { defineComponent, reactive, ref } from 'vue'
+import localCache from '@/utils/localCache'
 import { rules } from '../config/account-config'
+import { ElForm } from 'element-plus'
 
 export default defineComponent({
   setup() {
+    const account = reactive({
+      name: localCache.getCache('name') ?? '',
+      password: localCache.getCache('password') ?? ''
+    })
+    // eslint-disable-next-line no-undef
+    const formRef = ref<InstanceType<typeof ElForm>>()
+    const loginAction = (isKeepPassword: boolean) => {
+      formRef.value?.validate((valid) => {
+        if (valid) {
+          // 1.判断是否需要记住密码
+          if (isKeepPassword) {
+            // 本地缓存
+            localCache.setCache('name', account.name)
+            localCache.setCache('password', account.password)
+          } else {
+            localCache.deleteCache('name')
+            localCache.deleteCache('password')
+          }
+        }
+      })
+    }
     return {
+      account,
+      formRef,
+      loginAction,
       rules
     }
   }

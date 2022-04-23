@@ -1,12 +1,12 @@
 <template>
   <div class="login-panel">
     <h1 class="title">管理系统</h1>
-    <el-tabs type="border-card" stretch v-model="currentTab">
+    <el-tabs class="tabs" type="border-card" stretch v-model="currentTab">
       <el-tab-pane name="account">
         <template #label>
           <span><i class="el-icon-user-solid"></i> 账号登录</span>
         </template>
-        <login-account class="login-account" />
+        <login-account ref="accountRef" class="login-account" />
       </el-tab-pane>
       <!-- 手机登录 -->
       <el-tab-pane name="phone">
@@ -33,13 +33,19 @@ export default defineComponent({
   components: { LoginAccount },
   setup() {
     const currentTab = ref('account')
+    const isKeepPassword = ref(true)
+    // eslint-disable-next-line no-undef
+    const accountRef = ref()
+    //const phoneRef = ref<InstanceType<typeof LoginPhone>>()
     return {
-      currentTab
+      currentTab,
+      isKeepPassword,
+      accountRef
+      //phoneRef
     }
   }
 })
 </script>
-
 <style lang="less" scoped>
 .login-panel {
   height: 520px;
@@ -60,6 +66,9 @@ export default defineComponent({
     font-weight: 500;
     line-height: 42px;
     text-align: center;
+  }
+  .tabs {
+    background-color: rgba(255, 255, 255, 0.13);
   }
   .button {
     margin-top: 50px;
